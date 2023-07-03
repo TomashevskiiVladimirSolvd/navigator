@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface RouteDAO {
     void insertRoute(Route route);
+    void updateRoute(Route route);
     Route getRoute(int id);
     List<Route> getRoutes();
 }
