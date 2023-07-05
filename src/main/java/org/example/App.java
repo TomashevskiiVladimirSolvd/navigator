@@ -1,5 +1,6 @@
 package org.example;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Scalar.String;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,38 +20,6 @@ public class App
 
         System.out.println( "Hello World!" );
 
-        ConnectionPool connectionPool = ConnectionPool.getInstance();
-        Connection connection = connectionPool.getConnectionFromPool();
 
-        try (Statement statement = connection.createStatement()) {
-            // Execute a sample query to test the connection
-            String query = "SELECT 1";
-            ResultSet resultSet = statement.executeQuery(query);
-
-            if (resultSet.next()) {
-                int result = resultSet.getInt(1);
-                System.out.println("Database connection successful. Result: " + result);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            connectionPool.releaseConnectionToPool(connection);
-        }
-
-        // Initialize MyBatis
-        MyBatisInitializer.initialize();
-
-        // Get a SqlSession
-        SqlSession sqlSession = MyBatisSessionManager.getSqlSession();
-
-        try {
-            // Execute a sample query to test the connection
-            int count = sqlSession.selectOne("your.mapper.statement");
-
-            System.out.println("Database connection successful. Result: " + count);
-        } finally {
-            // Close the SqlSession
-            sqlSession.close();
-        }
     }
 }
