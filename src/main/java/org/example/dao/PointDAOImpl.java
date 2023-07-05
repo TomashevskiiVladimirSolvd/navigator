@@ -7,9 +7,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PointDAOImpl implements PointDAO {
     private static final ConnectionPool CONNECTIONPOOL = ConnectionPool.getInstance();
@@ -84,7 +81,7 @@ public class PointDAOImpl implements PointDAO {
 
     @Override
     public List<Point> getPoints() {
-        Connection connection = CONNECTIONPOOL.releaseConnectionToPool();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         List<Point> points = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
