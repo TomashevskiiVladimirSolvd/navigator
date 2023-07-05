@@ -60,9 +60,9 @@ public class RouteDAOImpl implements RouteDAO {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    int startPointId = resultSet.getInt("startPointId");
-                    int endPointId = resultSet.getInt("endPointId");
-                    long shortestDistance = resultSet.getLong("shortestDistance");
+                    int startPointId = resultSet.getInt("start_point");
+                    int endPointId = resultSet.getInt("end_point");
+                    long shortestDistance = resultSet.getLong("distance");
 
                     PointDAO pointDAO = new PointDAOImpl();
                     Point startPoint = pointDAO.getPoint(startPointId);
@@ -87,10 +87,10 @@ public class RouteDAOImpl implements RouteDAO {
              ResultSet resultSet = statement.executeQuery()) {
             PointDAO pointDAO = new PointDAOImpl();
             while (resultSet.next()) {
-                int id = resultSet.getInt("routesId");
-                int startPointId = resultSet.getInt("startPointId");
-                int endPointId = resultSet.getInt("endPointId");
-                long shortestDistance = resultSet.getLong("shortestDistance");
+                int id = resultSet.getInt("id");
+                int startPointId = resultSet.getInt("start_point");
+                int endPointId = resultSet.getInt("end_point");
+                long shortestDistance = resultSet.getLong("distance");
 
                 Point startPoint = pointDAO.getPoint(startPointId);
                 Point endPoint = pointDAO.getPoint(endPointId);

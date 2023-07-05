@@ -60,8 +60,8 @@ public class PointDAOImpl implements PointDAO {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    double xCoordinate = resultSet.getDouble("xCoordinate");
-                    double yCoordinate = resultSet.getDouble("yCoordinate");
+                    double xCoordinate = resultSet.getDouble("x_coordinate");
+                    double yCoordinate = resultSet.getDouble("y_coordinate");
                     point = new Point(id, xCoordinate, yCoordinate);
                 }
             }
@@ -80,9 +80,9 @@ public class PointDAOImpl implements PointDAO {
              PreparedStatement statement = connection.prepareStatement("SELECT p.id AS pointId, p.x_coordinate AS xCoordinate, p.y_coordinate AS yCoordinate FROM points p");
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                int id = resultSet.getInt("pointId");
-                double xCoordinate = resultSet.getDouble("xCoordinate");
-                double yCoordinate = resultSet.getDouble("yCoordinate");
+                int id = resultSet.getInt("id");
+                double xCoordinate = resultSet.getDouble("x_coordinate");
+                double yCoordinate = resultSet.getDouble("y_coordinate");
                 points.add(new Point(id, xCoordinate, yCoordinate));
             }
         } catch (SQLException e) {
