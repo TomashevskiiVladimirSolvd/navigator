@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import org.example.configurations.ConnectionPool;
 import org.example.model.Point;
 
 import java.sql.*;
@@ -18,7 +19,7 @@ public class PointDAOImpl implements PointDAO {
 
     @Override
     public void insertPoint(Point point) {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO point (id, xCoordinate, yCoordinate) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, point.getId());
@@ -38,13 +39,13 @@ public class PointDAOImpl implements PointDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
 
     @Override
     public void deletePoint(Point point) {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         try {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM point WHERE id = ?");
             statement.setInt(1, point.getId());
@@ -54,13 +55,13 @@ public class PointDAOImpl implements PointDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
 
     @Override
     public Point getPoint(int id) {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         Point point = null;
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM point WHERE id = ?");
@@ -76,14 +77,14 @@ public class PointDAOImpl implements PointDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return point;
     }
 
     @Override
     public List<Point> getPoints() {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.releaseConnectionToPool();
         List<Point> points = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -99,7 +100,7 @@ public class PointDAOImpl implements PointDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return points;
     }

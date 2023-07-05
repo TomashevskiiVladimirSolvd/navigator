@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import org.example.configurations.ConnectionPool;
 import org.example.model.Point;
 import org.example.model.Route;
 
@@ -16,7 +17,7 @@ public class RouteDAOImpl implements RouteDAO {
 
     @Override
     public void insertRoute(Route route) {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO route (startPointId, endPointId, shortestDistance) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setInt(1, route.getStartPoint().getId());
@@ -36,13 +37,13 @@ public class RouteDAOImpl implements RouteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
 
     @Override
     public void updateRoute(Route route) {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE route SET shortestDistance = ? WHERE startPointId = ? AND endPointId = ?");
             statement.setLong(1, route.getShortestDistance());
@@ -58,13 +59,13 @@ public class RouteDAOImpl implements RouteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
 
     @Override
     public Route getRoute(int id) {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         Route route = null;
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM route WHERE id = ?");
@@ -87,14 +88,14 @@ public class RouteDAOImpl implements RouteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return route;
     }
 
     @Override
     public List<Route> getRoutes() {
-        Connection connection = CONNECTIONPOOL.getConnection();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         List<Route> routes = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
@@ -118,7 +119,7 @@ public class RouteDAOImpl implements RouteDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            CONNECTIONPOOL.releaseConnection(connection);
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return routes;
     }
