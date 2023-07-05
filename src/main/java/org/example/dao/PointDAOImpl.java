@@ -17,63 +17,57 @@ public class PointDAOImpl implements PointDAO {
     @Override
     public void insertPoint(Point point) {
         Connection connection = CONNECTIONPOOL.getConnectionFromPool();
-        try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO point (id, xCoordinate, yCoordinate) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO points (id, xCoordinate, yCoordinate) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, point.getId());
             statement.setDouble(2, point.getXCoordinate());
             statement.setDouble(3, point.getYCoordinate());
             statement.executeUpdate();
 
-            ResultSet generatedKeys = statement.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int id = generatedKeys.getInt(1);
-                point.setId(id);
-                System.out.println("Point inserted successfully. Generated ID: " + id);
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                while (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    point.setId(id);
+                    System.out.println("Point inserted successfully. Generated ID: " + id);
+                }
             }
-
-            statement.close();
-            generatedKeys.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
 
     @Override
-    public void deletePoint(Point point) {
+    public void deletePoint(int id) {
         Connection connection = CONNECTIONPOOL.getConnectionFromPool();
-        try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM point WHERE id = ?");
-            statement.setInt(1, point.getId());
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM points WHERE id = ?")) {
+            statement.setInt(1, id);
             statement.executeUpdate();
-            System.out.println("Point deleted successfully.");
-            statement.close();
+            System.out.println("Point with ID " + id + " deleted successfully.");
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
+
 
     @Override
     public Point getPoint(int id) {
         Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         Point point = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM point WHERE id = ?");
+        try (PreparedStatement statement = connection.prepareStatement("SELECT  xCoordinate, yCoordinate FROM points WHERE id = ?")) {
             statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                double xCoordinate = resultSet.getDouble("xCoordinate");
-                double yCoordinate = resultSet.getDouble("yCoordinate");
-                point = new Point(id, xCoordinate, yCoordinate);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    double xCoordinate = resultSet.getDouble("xCoordinate");
+                    double yCoordinate = resultSet.getDouble("yCoordinate");
+                    point = new Point(id, xCoordinate, yCoordinate);
+                }
             }
-            statement.close();
-            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return point;
@@ -81,24 +75,21 @@ public class PointDAOImpl implements PointDAO {
 
     @Override
     public List<Point> getPoints() {
-        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         List<Point> points = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM point");
+        try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+             PreparedStatement statement = connection.prepareStatement("SELECT id, xCoordinate, yCoordinate FROM points");
+             ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 double xCoordinate = resultSet.getDouble("xCoordinate");
                 double yCoordinate = resultSet.getDouble("yCoordinate");
                 points.add(new Point(id, xCoordinate, yCoordinate));
             }
-            statement.close();
-            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
-            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return points;
     }
+
+
 }
