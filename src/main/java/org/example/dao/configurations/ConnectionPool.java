@@ -1,4 +1,6 @@
-package org.example.configurations;
+package org.example.dao.configurations;
+
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class ConnectionPool {
+  private static final Logger logger = Logger.getLogger("GLOBAL");
   private static final ConnectionPool INSTANCE = new ConnectionPool();
   private List<Connection> connectionPool;
   private Properties configProperties;
@@ -18,7 +21,7 @@ public class ConnectionPool {
     try {
       Class.forName(configProperties.getProperty("db.driver"));
     } catch (ClassNotFoundException e) {
-      e.printStackTrace();
+      logger.error(e);
     }
 
     connectionPool = new ArrayList<>(Integer.parseInt(configProperties.getProperty("db.poolsize")));
@@ -29,7 +32,7 @@ public class ConnectionPool {
   }
 
   private Connection createConnection() {
-    Connection connection;
+    Connection connection = null;
     try {
       connection = DriverManager.getConnection(
           configProperties.getProperty("db.url"),
@@ -37,7 +40,7 @@ public class ConnectionPool {
           configProperties.getProperty("db.password")
       );
     } catch (SQLException e) {
-      throw new RuntimeException("Unable to create a connection.", e);
+      logger.error("Unable to create a connection.", e);
     }
     return connection;
   }
@@ -50,7 +53,7 @@ public class ConnectionPool {
           connectionPool.wait();
         }
       } catch (InterruptedException e) {
-        throw new RuntimeException("Unable to connect.", e);
+        logger.error("Unable to connect.", e);
       }
     } else {
       connection = connectionPool.remove(connectionPool.size() - 1);

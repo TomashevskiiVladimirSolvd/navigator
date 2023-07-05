@@ -1,4 +1,6 @@
-package org.example.configurations;
+package org.example.dao.configurations;
+
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +9,7 @@ import java.util.Properties;
 //This class should follow SOLID principles, the Single Responsibility Principle (SRP),
 // by having a single responsibility of reading and providing configuration values.
 public class Config {
+  private static final Logger logger = Logger.getLogger("GLOBAL");
   private static Config instance;
   private Properties properties;
   private static final String CONFIG_PROPERTIES = "config.properties";
@@ -36,10 +39,10 @@ public class Config {
       if (inputStream != null) {
         properties.load(inputStream);
       } else {
-        throw new RuntimeException("Unable to load properties file: " + propertiesFile);
+        logger.error("Unable to load properties file: " + propertiesFile);
       }
     } catch (IOException e) {
-      throw new RuntimeException("Unable to load properties file: " + propertiesFile, e);
+      logger.error("Unable to load properties file: " + propertiesFile, e);
     }
     return properties;
   }

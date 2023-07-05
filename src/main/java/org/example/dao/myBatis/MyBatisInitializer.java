@@ -1,15 +1,16 @@
-package org.example.myBatis;
+package org.example.dao.myBatis;
 
 import java.io.IOException;
 import java.io.Reader;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.log4j.Logger;
 
 
 //This class is responsible for initializing the SqlSessionFactory object adhering to the SRP single responsibility
 public class MyBatisInitializer {
+  private static final Logger logger = Logger.getLogger("GLOBAL");
   private static SqlSessionFactory sqlSessionFactory;
 
   public static void initialize() {
@@ -18,7 +19,7 @@ public class MyBatisInitializer {
       Reader reader = Resources.getResourceAsReader(mybatisConfigFile);
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     } catch (IOException e) {
-      System.out.println("Failed to find MyBatis configuration file");
+      logger.error("Failed to find MyBatis configuration file");
     }
   }
 

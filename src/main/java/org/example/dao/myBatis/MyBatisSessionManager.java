@@ -1,4 +1,4 @@
-package org.example.myBatis;
+package org.example.dao.myBatis;
 
 
 import org.apache.ibatis.session.SqlSession;
