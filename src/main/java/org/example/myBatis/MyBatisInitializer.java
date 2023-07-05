@@ -12,6 +12,10 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 public class MyBatisInitializer {
   private static SqlSessionFactory sqlSessionFactory;
 
+  static {
+    initialize();
+  }
+
   public static void initialize() {
     try {
       String mybatisConfigFile = "src/main/resources/mybatis-config.xml";
