@@ -17,10 +17,9 @@ public class PointDAOImpl implements PointDAO {
     @Override
     public void insertPoint(Point point) {
         Connection connection = CONNECTIONPOOL.getConnectionFromPool();
-        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO points (id, xCoordinate, yCoordinate) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, point.getId());
-            statement.setDouble(2, point.getXCoordinate());
-            statement.setDouble(3, point.getYCoordinate());
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO point (x_coordinate, y_coordinate) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
+            statement.setDouble(1, point.getXCoordinate());
+            statement.setDouble(2, point.getYCoordinate());
             statement.executeUpdate();
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -36,6 +35,7 @@ public class PointDAOImpl implements PointDAO {
             CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
+
 
     @Override
     public void deletePoint(int id) {
@@ -56,7 +56,7 @@ public class PointDAOImpl implements PointDAO {
     public Point getPoint(int id) {
         Connection connection = CONNECTIONPOOL.getConnectionFromPool();
         Point point = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT  xCoordinate, yCoordinate FROM points WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT x_coordinate AS xCoordinate, y_coordinate AS yCoordinate FROM points WHERE id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -77,10 +77,10 @@ public class PointDAOImpl implements PointDAO {
     public List<Point> getPoints() {
         List<Point> points = new ArrayList<>();
         try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
-             PreparedStatement statement = connection.prepareStatement("SELECT id, xCoordinate, yCoordinate FROM points");
+             PreparedStatement statement = connection.prepareStatement("SELECT p.id AS pointId, p.x_coordinate AS xCoordinate, p.y_coordinate AS yCoordinate FROM points p");
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int id = resultSet.getInt("pointId");
                 double xCoordinate = resultSet.getDouble("xCoordinate");
                 double yCoordinate = resultSet.getDouble("yCoordinate");
                 points.add(new Point(id, xCoordinate, yCoordinate));
