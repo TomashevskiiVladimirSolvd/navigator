@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PointDAO {
     void insertPoint(Point point);
-    void deletePoint(Point point);
+    void deletePoint(int id);
     Point getPoint(int id);
     List<Point> getPoints();
 }
