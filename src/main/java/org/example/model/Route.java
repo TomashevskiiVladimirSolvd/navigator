@@ -3,6 +3,7 @@ package org.example.model;
 import java.util.Objects;
 
 public class Route {
+    private Integer id;
     private Point startPoint;
     private Point endPoint;
     private long distance;
@@ -14,6 +15,14 @@ public class Route {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.distance = distance;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Point getStartPoint() {
