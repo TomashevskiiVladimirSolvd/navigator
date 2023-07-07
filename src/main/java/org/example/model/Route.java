@@ -6,15 +6,15 @@ public class Route {
     private Integer id;
     private Point startPoint;
     private Point endPoint;
-    private long shortestDistance;
+    private long distance;
 
     public Route() {
     }
 
-    public Route(Point startPoint, Point endPoint, long shortestDistance) {
+    public Route(Point startPoint, Point endPoint, long distance) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
-        this.shortestDistance = shortestDistance;
+        this.distance = distance;
     }
 
     public Integer getId() {
@@ -41,12 +41,12 @@ public class Route {
         this.endPoint = endPoint;
     }
 
-    public long getShortestDistance() {
-        return shortestDistance;
+    public long getDistance() {
+        return distance;
     }
 
-    public void setShortestDistance(long shortestDistance) {
-        this.shortestDistance = shortestDistance;
+    public void setDistance(long distance) {
+        this.distance = distance;
     }
 
     @Override
@@ -54,12 +54,12 @@ public class Route {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
-        return shortestDistance == route.shortestDistance && Objects.equals(startPoint, route.startPoint) && Objects.equals(endPoint, route.endPoint);
+        return distance == route.distance && Objects.equals(startPoint, route.startPoint) && Objects.equals(endPoint, route.endPoint);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(startPoint, endPoint, shortestDistance);
+        return Objects.hash(startPoint, endPoint, distance);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class Route {
         return "Route{" +
                 "startPoint=" + startPoint +
                 ", endPoint=" + endPoint +
-                ", shortestDistance=" + shortestDistance +
+                ", shortestDistance=" + distance +
                 '}';
     }
 }
