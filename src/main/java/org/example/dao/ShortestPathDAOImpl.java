@@ -55,7 +55,8 @@ public class ShortestPathDAOImpl implements ShortestPathDAO {
 
     @Override
     public ShortestPath getShortestPath(int id) {
-        try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        try (
              PreparedStatement statement = connection.prepareStatement("SELECT sp.id AS shortestPathId, sp.previous_point AS previousPoint, sp.distance AS distance FROM shortest_paths sp WHERE id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -72,6 +73,8 @@ public class ShortestPathDAOImpl implements ShortestPathDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return null;
     }
