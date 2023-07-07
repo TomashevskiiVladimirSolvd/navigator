@@ -16,15 +16,16 @@ public class RouteDAOImpl implements RouteDAO {
     }
     @Override
     public void insertRoute(Route route) {
-        try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        try (
              PreparedStatement statement = connection.prepareStatement("INSERT INTO routes (start_point, end_point, distance) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, route.getStartPoint().getId());
             statement.setInt(2, route.getEndPoint().getId());
-            statement.setLong(3, route.getShortestDistance());
+            statement.setLong(3, route.getDistance());
             statement.executeUpdate();
 
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
+                while (generatedKeys.next()) {
                     int id = generatedKeys.getInt(1);
                     route.setId(id);
                     System.out.println("Route inserted successfully. Generated ID: " + id);
@@ -32,14 +33,17 @@ public class RouteDAOImpl implements RouteDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
 
     @Override
     public void updateRoute(Route route) {
-        try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        try (
              PreparedStatement statement = connection.prepareStatement("UPDATE routes SET distance = ? WHERE start_point = ? AND end_point = ?")) {
-            statement.setLong(1, route.getShortestDistance());
+            statement.setLong(1, route.getDistance());
             statement.setInt(2, route.getStartPoint().getId());
             statement.setInt(3, route.getEndPoint().getId());
             int rowsAffected = statement.executeUpdate();
@@ -50,12 +54,15 @@ public class RouteDAOImpl implements RouteDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
 
     @Override
     public Route getRoute(int id) {
-        try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        try (
              PreparedStatement statement = connection.prepareStatement("SELECT r.start_point AS startPointId, r.end_point AS endPointId, r.distance AS shortestDistance FROM routes r WHERE id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -75,6 +82,8 @@ public class RouteDAOImpl implements RouteDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return null;
     }
@@ -82,7 +91,8 @@ public class RouteDAOImpl implements RouteDAO {
     @Override
     public List<Route> getRoutes() {
         List<Route> routes = new ArrayList<>();
-        try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        try (
              PreparedStatement statement = connection.prepareStatement("SELECT r.id AS routesId, r.start_point AS startPointId, r.end_point AS endPointId, r.distance AS shortestDistance FROM routes r");
              ResultSet resultSet = statement.executeQuery()) {
             PointDAO pointDAO = new PointDAOImpl();
@@ -101,6 +111,8 @@ public class RouteDAOImpl implements RouteDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return routes;
     }

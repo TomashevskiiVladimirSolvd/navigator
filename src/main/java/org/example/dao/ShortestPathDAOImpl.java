@@ -4,10 +4,7 @@ import org.example.configurations.ConnectionPool;
 import org.example.model.Point;
 import org.example.model.ShortestPath;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ShortestPathDAOImpl implements ShortestPathDAO {
     private static final ConnectionPool CONNECTIONPOOL = ConnectionPool.getInstance();
@@ -18,19 +15,28 @@ public class ShortestPathDAOImpl implements ShortestPathDAO {
     @Override
     public void insertShortestPath(ShortestPath shortestPath) {
         Connection connection = CONNECTIONPOOL.getConnectionFromPool();
-        try (
-             PreparedStatement statement = connection.prepareStatement("INSERT INTO shortest_paths (id, previous_point, distance) VALUES (?, ?, ?)")) {
-            statement.setInt(1, shortestPath.getId());
-            statement.setObject(2, shortestPath.getPreviousPoint());
-            statement.setLong(3, shortestPath.getDistance());
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO shortest_paths (previous_point, distance) VALUES (?, ?)",
+                Statement.RETURN_GENERATED_KEYS)) {
+            statement.setObject(1, shortestPath.getPreviousPoint());
+            statement.setLong(2, shortestPath.getDistance());
             statement.executeUpdate();
-            System.out.println("Shortest path inserted successfully.");
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                while (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    shortestPath.setId(id);
+                    System.out.println("Shortest path inserted successfully. Generated ID: " + id);
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
     }
+
+
 
     @Override
     public void updateShortestPath(ShortestPath shortestPath) {
@@ -60,7 +66,7 @@ public class ShortestPathDAOImpl implements ShortestPathDAO {
              PreparedStatement statement = connection.prepareStatement("SELECT sp.id AS shortestPathId, sp.previous_point AS previousPoint, sp.distance AS distance FROM shortest_paths sp WHERE id = ?")) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     PointDAO pointDAO = new PointDAOImpl();
 
                     int shortestPathId = resultSet.getInt("shortestPathId");

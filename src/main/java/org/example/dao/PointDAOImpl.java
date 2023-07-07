@@ -76,7 +76,8 @@ public class PointDAOImpl implements PointDAO {
     @Override
     public List<Point> getPoints() {
         List<Point> points = new ArrayList<>();
-        try (Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        Connection connection = CONNECTIONPOOL.getConnectionFromPool();
+        try (
              PreparedStatement statement = connection.prepareStatement("SELECT p.id AS pointId, p.x_coordinate AS xCoordinate, p.y_coordinate AS yCoordinate FROM points p");
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -87,6 +88,8 @@ public class PointDAOImpl implements PointDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            CONNECTIONPOOL.releaseConnectionToPool(connection);
         }
         return points;
     }
