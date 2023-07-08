@@ -1,7 +1,7 @@
 package org.example.service.implementation;
 
-import org.example.dao.PointDAO;
-import org.example.dao.PointDAOImpl;
+import org.example.dao.implementation.PointMapperImpl;
+import org.example.dao.interfaces.PointDAO;
 import org.example.model.Point;
 import org.example.service.interfaces.IPointService;
 
@@ -11,7 +11,7 @@ public class PointService implements IPointService {
     private final PointDAO pointDAO;
 
     public PointService() {
-        this.pointDAO = new PointDAOImpl();
+        this.pointDAO = new PointMapperImpl();
     }
 
     public Point create(Point point) {

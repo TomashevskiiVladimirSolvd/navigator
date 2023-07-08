@@ -1,7 +1,7 @@
 package org.example.service.implementation;
 
-import org.example.dao.RouteDAO;
-import org.example.dao.RouteDAOImpl;
+import org.example.dao.implementation.RouteMapperImpl;
+import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Point;
 import org.example.model.Route;
 import org.example.service.interfaces.IPointService;
@@ -15,7 +15,7 @@ public class RouteService implements IRouteService {
 
 
     public RouteService() {
-        this.routeDAO = new RouteDAOImpl();
+        this.routeDAO = new RouteMapperImpl();
         this.pointService = new PointService();
     }
 
