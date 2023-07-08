@@ -1,10 +1,9 @@
-package org.example.dao.MapperImpl;
+package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
-import org.example.dao.ShortestPathDAO;
-import org.example.dao.myBatis.MyBatisSessionManager;
-import org.example.model.Route;
+import org.example.dao.interfaces.ShortestPathDAO;
+import org.example.configuration.MyBatisSession;
 import org.example.model.ShortestPath;
 
 public class ShortestPathMapperImpl implements ShortestPathDAO {
@@ -16,7 +15,7 @@ public class ShortestPathMapperImpl implements ShortestPathDAO {
 
     @Override
     public void insertShortestPath(ShortestPath shortestPath) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         try {
             sqlSession.insert("insertShortestPath", shortestPath);
             sqlSession.commit();
@@ -27,7 +26,7 @@ public class ShortestPathMapperImpl implements ShortestPathDAO {
 
     @Override
     public void updateShortestPath(ShortestPath shortestPath) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         try {
             sqlSession.update("updateShortestPath", shortestPath);
             sqlSession.commit();
@@ -38,7 +37,7 @@ public class ShortestPathMapperImpl implements ShortestPathDAO {
 
     @Override
     public ShortestPath getShortestPath(int id) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         ShortestPath shortestPath;
         try {
             shortestPath = sqlSession.selectOne("getShortestPath", id);
