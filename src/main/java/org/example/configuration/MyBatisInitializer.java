@@ -1,24 +1,28 @@
-package org.example.myBatis;
+package org.example.configuration;
 
-import java.io.IOException;
-import java.io.Reader;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.Properties;
 
-//This class is responsible for initializing the SqlSessionFactory object adhering to the SRP single responsibility
 public class MyBatisInitializer {
   private static SqlSessionFactory sqlSessionFactory;
+  private static final String configFile = "src/main/resources/config.properties";
+  private static final String myBatisFile = "mybatis-config.xml";
 
   public static void initialize() {
-    try {
-      String mybatisConfigFile = "src/main/resources/mybatis-config.xml";
-      Reader reader = Resources.getResourceAsReader(mybatisConfigFile);
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+    Properties properties = new Properties();
+
+    try (FileInputStream fis = new FileInputStream(configFile)) {
+      properties.load(fis);
+      Reader reader = Resources.getResourceAsReader(myBatisFile);
+      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, properties);
     } catch (IOException e) {
-      System.out.println("Failed to find MyBatis configuration file");
+      e.printStackTrace();
     }
   }
 
@@ -26,5 +30,3 @@ public class MyBatisInitializer {
     return sqlSessionFactory;
   }
 }
-
-
