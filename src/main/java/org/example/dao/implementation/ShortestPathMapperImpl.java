@@ -7,7 +7,6 @@ import org.example.configuration.MyBatisSession;
 import org.example.model.ShortestPath;
 
 public class ShortestPathMapperImpl implements ShortestPathDAO {
-    private final Logger logger = Logger.getLogger("GLOBAL");
     private SqlSession sqlSession;
 
     public ShortestPathMapperImpl() {

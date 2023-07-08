@@ -1,8 +1,12 @@
 package org.example;
 
+import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.example.configuration.MyBatisSession;
+import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Point;
+import org.example.model.Route;
 import org.example.service.implementation.PointService;
 
 import java.util.List;
@@ -29,7 +33,7 @@ public class App {
         for (Point point : allPoints)
             logger.info(point);
 
-        int id = 7; // change ID number to test
+        int id = 5; // change ID number to test
         Point point = pointService.getPoint(id);
         if (point != null) {
             pointService.delete(point);
@@ -37,6 +41,8 @@ public class App {
         } else
             logger.info("Point with ID #" + id + " does not exist in database");
 
-
+        SqlSession session = MyBatisSession.getSqlSession();
+        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
+        Route route = routeMapper.getRoute(1);
     }
 }

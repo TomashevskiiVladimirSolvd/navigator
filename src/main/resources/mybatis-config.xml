@@ -19,7 +19,7 @@
   <mappers>
     <!-- Specify the mapper XML files or mapper interfaces here -->
     <mapper resource="mapper/PointMapper.xml"/>
-    <!-- <mapper resource="mapper/RouteMapper.xml"/> -->
+    <mapper resource="mapper/RouteMapper.xml"/>
     <!-- <mapper resource="mapper/ShortestPathMapper.xml"/> -->
   </mappers>
 </configuration>
