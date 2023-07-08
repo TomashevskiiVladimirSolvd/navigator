@@ -18,7 +18,7 @@ public class MyBatisInitializer {
 
   public static void initialize() {
     try {
-      String mybatisConfigFile = "src/main/resources/mybatis-config.xml";
+      String mybatisConfigFile = "mybatis-config.xml";
       Reader reader = Resources.getResourceAsReader(mybatisConfigFile);
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
     } catch (IOException e) {
