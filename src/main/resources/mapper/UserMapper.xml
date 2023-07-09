@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.UserDAO">
+    <insert id="insertUser" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO users (id, name, surname, email) VALUES (#{id}, #{name}, #{surname}, #{email})
+    </insert>
+    <update id="updateUser">
+        UPDATE users SET name = #{name}, surname = #{surname}, email = #{surname} WHERE id = #{id}
+    </update>
+    <resultMap id="usersResult" type="org.example.model.User">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="surname" column="surname"/>
+        <result property="email" column="email"/>
+    </resultMap>
+    <select id="getUser" resultType="usersResult">
+        SELECT id, name, surname, email FROM users WHERE id = #{id}
+    </select>
+    <select id="getUsers" resultMap="usersResult">
+        SELECT id, name, surname, email FROM users
+    </select>
+</mapper>
