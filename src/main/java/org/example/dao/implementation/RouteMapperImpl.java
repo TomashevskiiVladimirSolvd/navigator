@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.example.dao.interfaces.RouteDAO;
 import org.example.configuration.MyBatisSession;
+import org.example.model.Point;
 import org.example.model.Route;
 
 import java.util.List;
@@ -61,5 +62,17 @@ public class RouteMapperImpl implements RouteDAO {
             sqlSession.close();
         }
         return routes;
+    }
+
+    @Override
+    public void setWayPoints(Route route, Point wayPoint) {
+        sqlSession = MyBatisSession.getSqlSession();
+        try {
+            RouteDAO routeDAO = sqlSession.getMapper(RouteDAO.class);
+            routeDAO.setWayPoints(route, wayPoint);
+            sqlSession.commit();
+        } finally {
+            sqlSession.close();
+        }
     }
 }
