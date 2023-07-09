@@ -1,10 +1,9 @@
-package org.example.dao.MapperImpl;
+package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
-import org.example.dao.RouteDAO;
-import org.example.dao.myBatis.MyBatisSessionManager;
-import org.example.model.Point;
+import org.example.dao.interfaces.RouteDAO;
+import org.example.configuration.MyBatisSession;
 import org.example.model.Route;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class RouteMapperImpl implements RouteDAO {
 
     @Override
     public void insertRoute(Route route) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         try {
             sqlSession.insert("insertRoute", route);
             sqlSession.commit();
@@ -29,7 +28,7 @@ public class RouteMapperImpl implements RouteDAO {
 
     @Override
     public void updateRoute(Route route) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         try {
             sqlSession.update("updateRoute", route);
             sqlSession.commit();
@@ -40,7 +39,7 @@ public class RouteMapperImpl implements RouteDAO {
 
     @Override
     public Route getRoute(int id) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         Route route;
         try {
             route = sqlSession.selectOne("getRoute", id);
@@ -53,7 +52,7 @@ public class RouteMapperImpl implements RouteDAO {
 
     @Override
     public List<Route> getRoutes() {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         List<Route> routes;
         try {
             routes = sqlSession.selectList("getRoutes");

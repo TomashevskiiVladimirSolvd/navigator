@@ -16,8 +16,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String name, String surname, String email) {
-        this.id = id;
+    public User(String name, String surname, String email) {
         this.name = name;
         this.surname = surname;
         this.email = email;

@@ -11,8 +11,7 @@ public class Point {
     public Point() {
     }
 
-    public Point(Integer id, double xCoordinate, double yCoordinate) {
-        this.id = id;
+    public Point(double xCoordinate, double yCoordinate) {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
     }

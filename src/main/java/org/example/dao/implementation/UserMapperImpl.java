@@ -1,10 +1,10 @@
-package org.example.dao.MapperImpl;
+package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.example.dao.UserDAO;
-import org.example.dao.myBatis.MyBatisSessionManager;
 import org.example.model.User;
+import org.example.configuration.MyBatisSession;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class UserMapperImpl implements UserDAO {
 
     @Override
     public void insertUser(User user) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         try {
             sqlSession.insert("insertUser", user);
             sqlSession.commit();
@@ -26,9 +26,8 @@ public class UserMapperImpl implements UserDAO {
         }
     }
 
-    @Override
     public void updateUser(User user) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         try {
             sqlSession.update("updateUser", user);
             sqlSession.commit();
@@ -39,7 +38,7 @@ public class UserMapperImpl implements UserDAO {
 
     @Override
     public User getUser(int id) {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         User user;
         try {
             user = sqlSession.selectOne("getUser", id);
@@ -52,7 +51,7 @@ public class UserMapperImpl implements UserDAO {
 
     @Override
     public List<User> getUsers() {
-        sqlSession = MyBatisSessionManager.getSqlSession();
+        sqlSession = MyBatisSession.getSqlSession();
         List<User> users;
         try {
             users = sqlSession.selectList("getUsers");
