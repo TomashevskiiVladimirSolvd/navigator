@@ -2,10 +2,9 @@ package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
-import org.example.dao.UserDAO;
+import org.example.dao.interfaces.UserDAO;
 import org.example.model.User;
 import org.example.configuration.MyBatisSession;
-
 import java.util.List;
 
 public class UserMapperImpl implements UserDAO {
