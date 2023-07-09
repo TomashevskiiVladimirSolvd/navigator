@@ -2,25 +2,25 @@ package org.example;
 
 
 
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
-import org.example.dao.MapperImpl.PointMapperImpl;
-import org.example.dao.MapperImpl.RouteMapperImpl;
-import org.example.dao.PointDAO;
-import org.example.dao.PointDAOImpl;
-import org.example.dao.RouteDAO;
-import org.example.dao.RouteDAOImpl;
+
 import org.example.model.Route;
 import org.example.model.Point;
+
+import org.example.service.implementation.PointService;
+
+
 import java.util.List;
 
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.example.myBatis.MyBatisSessionManager;
+import org.example.configuration.MyBatisSession;
 
 public class App {
     private static final Logger logger = Logger.getLogger("GLOBAL");
@@ -28,17 +28,20 @@ public class App {
     public static void main( String[] args ) {
 
         PropertyConfigurator.configure("src/main/resources/log4j.properties");
+        PointService pointService = new PointService();
+
         RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
+
         List<Point> pt = Stream.generate(randomPointsGenerator::createRandomPoint)
                 .limit(randomPointsGenerator.getNumPoints())
                 .collect(Collectors.toList());
         System.out.println(pt);
 
         List<Point> points = new ArrayList<>();
-        points.add(new Point(1, 0, 0));
-        points.add(new Point(2, 1, 1));
-        points.add(new Point(3, 2, 2));
-        points.add(new Point(4, 3, 3));
+        points.add(new Point(0, 0));
+        points.add(new Point(1, 1));
+        points.add(new Point(2, 2));
+        points.add(new Point(3, 3));
 
         List<Route> routes = new ArrayList<>();
         routes.add(new Route(points.get(0), points.get(1), 3));
@@ -122,6 +125,27 @@ public class App {
 //                System.out.println("Shortest path from (" + startX + ", " + startY + ") to (" + endX + ", " + endY + ") is " + shortestPath);
 //            }
 //        }
+
+
+        List<Point> p = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
+                .limit(randomPointsGenerator.getNumPoints())
+                .collect(Collectors.toList());
+        logger.info("*** GENERATED POINTS ***");
+        for (Point point : p)
+            logger.info(point);
+
+        List<Point> allPoints = pointService.getPoints();
+        logger.info("*** POINTS IN DATABASE ***");
+        for (Point point : allPoints)
+            logger.info(point);
+
+        int id = 7; // change ID number to test
+        Point point = pointService.getPoint(id);
+        if (point != null) {
+            pointService.delete(point);
+            logger.info("Deleted point with ID #" + id);
+        } else
+            logger.info("Point with ID #" + id + " does not exist in database");
 
 
 

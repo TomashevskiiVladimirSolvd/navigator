@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.example.dao.ShortestPathDAO">
+<mapper namespace="org.example.dao.interfaces.ShortestPathDAO">
     <insert id="insertShortestPath" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO shortest_paths (id, previous_point, distance) VALUES (#{id}, #{previousPoint}, #{distance})
     </insert>
