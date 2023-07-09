@@ -39,7 +39,7 @@ public class App {
         Route route = new Route();
         routing.setRoute(route);
         ourMentor.setDesiredPath(routing);
-        // calculate the optimal route
+        // calculate the optimal route and then set that info to route
         routing.notifyUsers();
         /**
         logger.info("*** GENERATED POINTS ***");

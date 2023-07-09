@@ -25,6 +25,7 @@ public class UserMapperImpl implements UserDAO {
         }
     }
 
+    @Override
     public void updateUser(User user) {
         sqlSession = MyBatisSession.getSqlSession();
         try {

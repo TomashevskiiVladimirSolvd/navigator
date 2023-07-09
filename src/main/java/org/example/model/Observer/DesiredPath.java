@@ -4,13 +4,14 @@ import org.example.model.Point;
 import org.example.model.Route;
 import org.example.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DesiredPath {
     private Point currentLocation;
     private Point destination;
     private Route route;
-    private List<User> subscribers;
+    private List<User> subscribers = new ArrayList<>();
 
     public void subscribe(User user) {
         subscribers.add(user);
