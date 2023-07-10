@@ -1,6 +1,7 @@
 package org.example.model;
 
-import java.util.List;
+import org.example.model.builder.PointBuilder;
+
 import java.util.Objects;
 
 public class Point {
