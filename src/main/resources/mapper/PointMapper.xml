@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.example.dao.PointDAO">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.interfaces.PointDAO">
+
     <insert id="insertPoint" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO points (id, x_coordinate, y_coordinate) VALUES (#{id}, #{xCoordinate}, #{yCoordinate})
+        INSERT INTO points (x_coordinate, y_coordinate) VALUES (#{xCoordinate}, #{yCoordinate})
     </insert>
+
     <delete id="deletePoint">
         DELETE FROM points WHERE id = #{id}
     </delete>
+
+    <select id="getPoint" resultMap="pointsResult">
+        SELECT id, x_coordinate, y_coordinate FROM points WHERE id = #{id}
+    </select>
+
+    <select id="getPoints" resultMap="pointsResult">
+        SELECT id, x_coordinate, y_coordinate FROM points
+    </select>
+
     <resultMap id="pointsResult" type="org.example.model.Point">
         <result property="id" column="id"/>
         <result property="xCoordinate" column="x_coordinate"/>
         <result property="yCoordinate" column="y_coordinate"/>
     </resultMap>
-    <select id="getPoint" resultType="pointsResult">
-        SELECT id, x_coordinate, y_coordinate FROM points WHERE id = #{id}
-    </select>
-    <select id="getPoints" resultMap="pointsResult">
-        SELECT id, x_coordinate, y_coordinate FROM points
-    </select>
 </mapper>

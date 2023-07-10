@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.example.dao.RouteDAO">
+<mapper namespace="org.example.dao.interfaces.RouteDAO">
+
     <insert id="insertRoute" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO routes (id, start_point, end_point, distance) VALUES (#{id}, #{startPoint}, #{endPoint}, #{distance})
+        INSERT INTO routes (distance) VALUES (#{distance})
     </insert>
+
     <update id="updateRoute">
-        UPDATE routes SET distance WHERE id = #{id}
+        UPDATE routes SET distance = #{distance} WHERE id = #{id}
     </update>
+
     <resultMap id="routesResult" type="org.example.model.Route">
         <result property="id" column="id"/>
-        <result property="startPoint" column="start_point"/>
-        <result property="endPoint" column="end_point"/>
         <result property="distance" column="distance"/>
+        <association property="startPoint" columnPrefix="start_point_"
+                     resultMap="org.example.dao.interfaces.PointDAO.pointsResult"/>
+        <association property="endPoint" columnPrefix="end_point_"
+                     resultMap="org.example.dao.interfaces.PointDAO.pointsResult"/>
     </resultMap>
-    <select id="getRoute" resultType="routesResult">
+
+    <select id="getRoute" resultMap="routesResult">
         SELECT id, start_point, end_point, distance FROM routes WHERE id = #{id}
     </select>
+
     <select id="getRoutes" resultMap="routesResult">
         SELECT id, start_point, end_point, distance FROM routes
     </select>
+
+    <insert id="setWayPoints">
+        INSERT INTO waypoints (points_id, routes_id) VALUES (#{points_id}, #{routes_id})
+    </insert>
+
 </mapper>
