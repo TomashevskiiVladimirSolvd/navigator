@@ -6,7 +6,7 @@ import org.example.model.Route;
 import java.util.List;
 
 public interface IRouteService {
-    public Route create(RouteBuilder routeBuilder);
+    public Route create(Route route);
     public void update(Route route);
     Route getRoute(int id);
     List<Route> getRoutes();

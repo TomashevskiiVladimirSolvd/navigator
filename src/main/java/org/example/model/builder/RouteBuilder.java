@@ -3,13 +3,18 @@ package org.example.model.builder;
 import org.example.model.Point;
 import org.example.model.Route;
 
+import java.util.List;
+
 public class RouteBuilder {
+
     private Integer id;
     private Point startPoint;
     private Point endPoint;
     private long distance;
+    private List<Point> wayPoints;
 
-    public RouteBuilder() {
+    public RouteBuilder(){
+
     }
 
     public RouteBuilder setId(Integer id) {
@@ -31,13 +36,12 @@ public class RouteBuilder {
         this.distance = distance;
         return this;
     }
+    public RouteBuilder setWayPoints(List<Point> wayPoints) {
+        this.wayPoints = wayPoints;
+        return this;
+    }
 
-    public Route build() {
-        Route route = new Route();
-        route.setId(this.id);
-        route.setStartPoint(this.startPoint);
-        route.setEndPoint(this.endPoint);
-        route.setDistance(this.distance);
-        return route;
+    public Route getRoute() {
+        return new Route(startPoint, endPoint, distance, wayPoints);
     }
 }

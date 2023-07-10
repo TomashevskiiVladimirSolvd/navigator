@@ -21,10 +21,19 @@ public class RouteService implements IRouteService {
         this.pointService = new PointService();
     }
 
-    public Route create(RouteBuilder routeBuilder) {
-        Route route=routeBuilder.build();
+    public Route create(Route route) {
         route.setId(null);
         routeDAO.insertRoute(route);
+
+        if (route.getStartPoint() != null) {
+            Point startPoint = pointService.create(route.getStartPoint());
+            route.setStartPoint(startPoint);
+        }
+
+        if (route.getEndPoint() != null) {
+            Point endPoint = pointService.create(route.getEndPoint());
+            route.setStartPoint(endPoint);
+        }
 
         if (route.getWayPoints() != null) {
             List<Point> wayPoints = route.getWayPoints().stream()

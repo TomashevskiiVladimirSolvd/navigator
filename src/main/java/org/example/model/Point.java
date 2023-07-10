@@ -12,14 +12,10 @@ public class Point {
     public Point() {
     }
 
-    public static PointBuilder builder() {
-        return new PointBuilder();
+    public Point(double xCoordinate, double yCoordinate) {
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
     }
-
-//    public Point(double xCoordinate, double yCoordinate) {
-//        this.xCoordinate = xCoordinate;
-//        this.yCoordinate = yCoordinate;
-//    }
 
     public Integer getId() {
         return id;
