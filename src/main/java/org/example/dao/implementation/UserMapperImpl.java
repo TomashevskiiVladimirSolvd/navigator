@@ -2,22 +2,23 @@ package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
-import org.example.dao.interfaces.ShortestPathDAO;
+import org.example.dao.interfaces.UserDAO;
+import org.example.model.User;
 import org.example.configuration.MyBatisSession;
-import org.example.model.ShortestPath;
+import java.util.List;
 
-public class ShortestPathMapperImpl implements ShortestPathDAO {
+public class UserMapperImpl implements UserDAO {
     private final Logger logger = Logger.getLogger("GLOBAL");
     private SqlSession sqlSession;
 
-    public ShortestPathMapperImpl() {
+    public UserMapperImpl() {
     }
 
     @Override
-    public void insertShortestPath(ShortestPath shortestPath) {
+    public void insertUser(User user) {
         sqlSession = MyBatisSession.getSqlSession();
         try {
-            sqlSession.insert("insertShortestPath", shortestPath);
+            sqlSession.insert("insertUser", user);
             sqlSession.commit();
         } finally {
             sqlSession.close();
@@ -25,10 +26,10 @@ public class ShortestPathMapperImpl implements ShortestPathDAO {
     }
 
     @Override
-    public void updateShortestPath(ShortestPath shortestPath) {
+    public void updateUser(User user) {
         sqlSession = MyBatisSession.getSqlSession();
         try {
-            sqlSession.update("updateShortestPath", shortestPath);
+            sqlSession.update("updateUser", user);
             sqlSession.commit();
         } finally {
             sqlSession.close();
@@ -36,15 +37,28 @@ public class ShortestPathMapperImpl implements ShortestPathDAO {
     }
 
     @Override
-    public ShortestPath getShortestPath(int id) {
+    public User getUser(int id) {
         sqlSession = MyBatisSession.getSqlSession();
-        ShortestPath shortestPath;
+        User user;
         try {
-            shortestPath = sqlSession.selectOne("getShortestPath", id);
+            user = sqlSession.selectOne("getUser", id);
             sqlSession.commit();
         } finally {
             sqlSession.close();
         }
-        return shortestPath;
+        return user;
+    }
+
+    @Override
+    public List<User> getUsers() {
+        sqlSession = MyBatisSession.getSqlSession();
+        List<User> users;
+        try {
+            users = sqlSession.selectList("getUsers");
+            sqlSession.commit();
+        } finally {
+            sqlSession.close();
+        }
+        return users;
     }
 }

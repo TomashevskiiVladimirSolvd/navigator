@@ -1,4 +1,4 @@
-package org.example.builder;
+package org.example.model.builder;
 
 import org.example.model.Point;
 import org.example.model.Route;

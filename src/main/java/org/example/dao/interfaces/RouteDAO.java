@@ -1,5 +1,6 @@
 package org.example.dao.interfaces;
 
+import org.example.model.Point;
 import org.example.model.Route;
 
 import java.util.List;
@@ -9,4 +10,6 @@ public interface RouteDAO {
     void updateRoute(Route route);
     Route getRoute(int id);
     List<Route> getRoutes();
+
+    void setWayPoints(Route route, Point wayPoint);
 }

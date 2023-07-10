@@ -1,6 +1,6 @@
 package org.example.service.interfaces;
 
-import org.example.builder.RouteBuilder;
+import org.example.model.builder.RouteBuilder;
 import org.example.model.Route;
 
 import java.util.List;
