@@ -47,6 +47,9 @@ public class RandomPointsGenerator {
         Random random = new Random();
         double x = minX + (maxX - minX) * random.nextDouble();
         double y = minY + (maxY - minY) * random.nextDouble();
-        return new Point(x, y);
+        return Point.builder()
+                .setXCoordinate(x)
+                .setYCoordinate(y)
+                .build();
     }
 }

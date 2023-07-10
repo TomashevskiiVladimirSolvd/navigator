@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.builder.PointBuilder;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -11,10 +13,14 @@ public class Point {
     public Point() {
     }
 
-    public Point(double xCoordinate, double yCoordinate) {
-        this.xCoordinate = xCoordinate;
-        this.yCoordinate = yCoordinate;
+    public static PointBuilder builder() {
+        return new PointBuilder();
     }
+
+//    public Point(double xCoordinate, double yCoordinate) {
+//        this.xCoordinate = xCoordinate;
+//        this.yCoordinate = yCoordinate;
+//    }
 
     public Integer getId() {
         return id;

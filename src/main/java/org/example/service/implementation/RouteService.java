@@ -1,5 +1,6 @@
 package org.example.service.implementation;
 
+import org.example.builder.RouteBuilder;
 import org.example.dao.implementation.RouteMapperImpl;
 import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Point;
@@ -19,7 +20,8 @@ public class RouteService implements IRouteService {
         this.pointService = new PointService();
     }
 
-    public Route create(Route route) {
+    public Route create(RouteBuilder routeBuilder) {
+        Route route=routeBuilder.build();
         route.setId(null);
         routeDAO.insertRoute(route);
 
@@ -30,8 +32,9 @@ public class RouteService implements IRouteService {
 
         if (route.getEndPoint() != null) {
             Point endPoint = pointService.create(route.getEndPoint());
-            route.setStartPoint(endPoint);
+            route.setEndPoint(endPoint);
         }
+
         return route;
     }
 
