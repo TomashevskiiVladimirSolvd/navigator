@@ -1,15 +1,16 @@
 package org.example.dao.interfaces;
 
+import org.apache.ibatis.annotations.Param;
 import org.example.model.Point;
 import org.example.model.Route;
 
 import java.util.List;
 
 public interface RouteDAO {
-    void insertRoute(Route route);
-    void updateRoute(Route route);
-    Route getRoute(int id);
-    List<Route> getRoutes();
+    public void insertRoute(Route route);
+    public void updateRoute(Route route);
+    public Route getRoute(int id);
+    public List<Route> getRoutes();
 
-    void setWayPoints(Route route, Point wayPoint);
+    public void setWayPoints(@Param("routes") Route route, @Param("points") Point wayPoint);
 }
