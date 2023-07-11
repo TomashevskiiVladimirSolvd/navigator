@@ -15,13 +15,13 @@ public class User {
     private String email;
     private DesiredPath desiredPath;
 
-    public User() {
-    }
+    public User(){
 
+    }
     public User(String name, String surname, String email) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
+        this.name=name;
+        this.surname=surname;
+        this.email=email;
     }
 
     public Integer getId() {
