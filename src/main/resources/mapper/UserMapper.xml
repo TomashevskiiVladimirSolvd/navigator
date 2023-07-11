@@ -18,7 +18,7 @@
         <result property="email" column="email"/>
     </resultMap>
 
-    <select id="getUser" resultType="usersResult">
+    <select id="getUser" resultMap="usersResult">
         SELECT id, name, surname, email FROM users WHERE id = #{id}
     </select>
 

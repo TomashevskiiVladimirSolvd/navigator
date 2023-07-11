@@ -26,12 +26,12 @@ public class RouteService implements IRouteService {
 
         if (route.getStartPoint() != null) {
             Point startPoint = pointService.create(route.getStartPoint());
-            route.setStartPoint(startPoint);
+            routeDAO.setStartPoint(startPoint, route);
         }
 
         if (route.getEndPoint() != null) {
             Point endPoint = pointService.create(route.getEndPoint());
-            route.setStartPoint(endPoint);
+            routeDAO.setEndPoint(endPoint, route);
         }
 
         if (route.getWayPoints() != null) {

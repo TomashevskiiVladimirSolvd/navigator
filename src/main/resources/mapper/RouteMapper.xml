@@ -14,9 +14,9 @@
     <resultMap id="routesResult" type="org.example.model.Route">
         <result property="id" column="id"/>
         <result property="distance" column="distance"/>
-        <association property="startPoint" columnPrefix="start_point_"
+        <association property="startPoint" columnPrefix="start_point"
                      resultMap="org.example.dao.interfaces.PointDAO.pointsResult"/>
-        <association property="endPoint" columnPrefix="end_point_"
+        <association property="endPoint" columnPrefix="end_point"
                      resultMap="org.example.dao.interfaces.PointDAO.pointsResult"/>
     </resultMap>
 
@@ -27,6 +27,14 @@
     <select id="getRoutes" resultMap="routesResult">
         SELECT id, start_point, end_point, distance FROM routes
     </select>
+
+    <update id="setStartPoint" parameterType="map">
+        UPDATE routes SET start_point = #{startPoint.id} WHERE id = #{route.id}
+    </update>
+
+    <update id="setEndPoint" parameterType="map">
+        UPDATE routes SET end_point = #{endPoint.id} WHERE id = #{route.id}
+    </update>
 
     <insert id="setWayPoints" parameterType="map">
         INSERT INTO waypoints (points_id, routes_id) VALUES (#{point.id}, #{route.id})

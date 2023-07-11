@@ -14,6 +14,7 @@ import org.example.model.User;
 import org.example.service.implementation.PointService;
 import org.example.service.implementation.RouteService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -68,14 +69,14 @@ public class App {
 
         RouteService routeService = new RouteService();
         Route route2 = new Route(allPoints.get(0), allPoints.get(1), 100500);
-        routeService.create(route1);
-        logger.info("A new route without waypoints has been added into the database: " + route1);
+        routeService.create(route2);
+        logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route2.getId()));
 
-//        List<Point> wayPoints = new ArrayList<>();
-//        wayPoints.add(allPoints.get(3));
-//        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
-//        routeService.create(route2);
-//        logger.info("A new route without waypoints has been added into the database: " + route2);
+        List<Point> wayPoints = new ArrayList<>();
+        wayPoints.add(allPoints.get(3));
+        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
+        routeService.create(route3);
+        logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route3.getId()));
     }
 
 
