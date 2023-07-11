@@ -1,5 +1,6 @@
 package org.example.dao.implementation;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.example.dao.interfaces.RouteDAO;
@@ -65,7 +66,7 @@ public class RouteMapperImpl implements RouteDAO {
     }
 
     @Override
-    public void setWayPoints(Route route, Point wayPoint) {
+    public void setWayPoints(@Param("routes") Route route, @Param("points") Point wayPoint) {
         sqlSession = MyBatisSession.getSqlSession();
         try {
             RouteDAO routeDAO = sqlSession.getMapper(RouteDAO.class);
