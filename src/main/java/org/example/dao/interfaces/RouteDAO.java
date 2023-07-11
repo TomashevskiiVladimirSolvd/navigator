@@ -12,5 +12,5 @@ public interface RouteDAO {
     public Route getRoute(int id);
     public List<Route> getRoutes();
 
-    public void setWayPoints(@Param("routes") Route route, @Param("points") Point wayPoint);
+    public void setWayPoints(@Param("route") Route route, @Param("point") Point wayPoint);
 }
