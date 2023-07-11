@@ -28,8 +28,8 @@
         SELECT id, start_point, end_point, distance FROM routes
     </select>
 
-    <insert id="setWayPoints">
-        INSERT INTO waypoints (points_id, routes_id) VALUES (#{points_id}, #{routes_id})
+    <insert id="setWayPoints" parameterType="map">
+        INSERT INTO waypoints (points_id, routes_id) VALUES (#{point.id}, #{route.id})
     </insert>
 
 </mapper>

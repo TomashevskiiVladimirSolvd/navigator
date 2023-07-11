@@ -1,14 +1,17 @@
 package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.configuration.MyBatisSession;
 import org.example.dao.interfaces.UserDAO;
 import org.example.model.User;
-import org.example.configuration.MyBatisSession;
+
 import java.util.List;
 
 public class UserMapperImpl implements UserDAO {
-    private final Logger logger = Logger.getLogger("GLOBAL");
+    private static final Logger logger = LogManager.getLogger("UserMapperImpl");
     private SqlSession sqlSession;
 
     public UserMapperImpl() {

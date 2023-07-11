@@ -1,7 +1,9 @@
 package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.configuration.MyBatisSession;
 import org.example.dao.interfaces.PointDAO;
 import org.example.model.Point;
@@ -9,7 +11,7 @@ import org.example.model.Point;
 import java.util.List;
 
 public class PointMapperImpl implements PointDAO {
-    private final Logger logger = Logger.getLogger("GLOBAL");
+    private static final Logger logger = LogManager.getLogger("PointMapperImpl");
 
     public PointMapperImpl() {
 

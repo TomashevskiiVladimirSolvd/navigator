@@ -1,7 +1,6 @@
 package org.example.model;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Route {
     private Integer id;
