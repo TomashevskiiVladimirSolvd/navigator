@@ -1,16 +1,19 @@
 package org.example.dao.implementation;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.Logger;
-import org.example.dao.interfaces.RouteDAO;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.configuration.MyBatisSession;
+import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Point;
 import org.example.model.Route;
 
 import java.util.List;
 
+
 public class RouteMapperImpl implements RouteDAO {
-    private final Logger logger = Logger.getLogger("GLOBAL");
+    private static final Logger logger = LogManager.getLogger("RouteMapperImpl");
     private SqlSession sqlSession;
 
     public RouteMapperImpl() {

@@ -2,8 +2,6 @@ package org.example.model;
 
 import org.example.model.builder.PointBuilder;
 
-import java.util.Objects;
-
 public class Point {
     private Integer id;
     private double xCoordinate;

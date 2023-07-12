@@ -8,6 +8,6 @@ import java.util.List;
 public interface IRouteService {
     public Route create(Route route);
     public void update(Route route);
-    Route getRoute(int id);
-    List<Route> getRoutes();
+    public Route getRoute(int id);
+    public List<Route> getRoutes();
 }

@@ -1,12 +1,14 @@
 package org.example.model;
 
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.model.Observer.DesiredPath;
 
 import java.util.Objects;
 
 public class User {
-    private static final Logger logger = Logger.getLogger("GLOBAL");
+    private static final Logger logger = LogManager.getLogger("CLASS");
     private Integer id;
     private String name;
     private String surname;

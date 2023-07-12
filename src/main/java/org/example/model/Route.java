@@ -2,7 +2,6 @@ package org.example.model;
 import org.example.model.builder.RouteBuilder;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Route {
     private Integer id;
