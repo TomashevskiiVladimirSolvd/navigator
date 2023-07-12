@@ -11,6 +11,8 @@ import org.example.model.Observer.DesiredPath;
 import org.example.model.Point;
 import org.example.model.Route;
 import org.example.model.User;
+import org.example.model.builder.RouteBuilder;
+import org.example.model.builder.UserBuilder;
 import org.example.service.implementation.PointService;
 import org.example.service.implementation.RouteService;
 
@@ -34,7 +36,11 @@ public class App {
         System.out.println(points);
 
         //Observer logic
-        User ourMentor = new User("Andrei", "Trukhanovich", "atrukhanovich@solvd.com");
+        User ourMentor = new UserBuilder()
+                .setName("Andrei")
+                .setSurname("Trukhanovich")
+                .setEmail("atrukhanovich@solvd.com")
+                .getUser();
         DesiredPath routing = new DesiredPath();
         routing.subscribe(ourMentor);
         Route route = new Route();
