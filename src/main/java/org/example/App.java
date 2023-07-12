@@ -2,7 +2,6 @@ package org.example;
 
 
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -14,16 +13,34 @@ import org.apache.log4j.PropertyConfigurator;
 import org.example.model.Route;
 import org.example.model.Point;
 
-import org.example.service.implementation.PointService;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.example.configuration.MyBatisSession;
+import org.example.dao.interfaces.RouteDAO;
+import org.example.model.Observer.DesiredPath;
+import org.example.model.Point;
+import org.example.model.Route;
+import org.example.model.User;
+import org.example.model.builder.RouteBuilder;
+import org.example.model.builder.UserBuilder;
+
+import org.example.service.implementation.PointService;
+import org.example.service.implementation.RouteService;
+
+
+import java.util.ArrayList;
 
 import java.util.List;
 
 
 public class App {
-    private static final Logger logger = Logger.getLogger("GLOBAL");
+    private static final Logger logger = LogManager.getLogger("APP");
 
     public static void main( String[] args ) {
+
 
         PropertyConfigurator.configure("src/main/resources/log4j.properties");
         //point service
@@ -49,10 +66,40 @@ public class App {
 
 
 
+        Configurator.initialize(null, "src/main/resources/log4j2.xml");
+        PointService pointService = new PointService();
+
+        RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
+
+        List<Point> points = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
+                .limit(randomPointsGenerator.getNumPoints())
+                .collect(Collectors.toList());
+        System.out.println(points);
+
+        //Observer logic
+        User ourMentor = new UserBuilder()
+                .setName("Andrei")
+                .setSurname("Trukhanovich")
+                .setEmail("atrukhanovich@solvd.com")
+                .getUser();
+        DesiredPath routing = new DesiredPath();
+        routing.subscribe(ourMentor);
+        Route route = new Route();
+        routing.setRoute(route);
+        ourMentor.setDesiredPath(routing);
+        // calculate the optimal route and then set that info to route
+        routing.notifyUsers();
+
+        logger.info("*** GENERATED POINTS ***");
+        for (Point point : points)
+            logger.info(point);
+
+
         List<Point> allPoints = pointService.getPoints();
         logger.info("*** POINTS IN DATABASE ***");
         for (Point point : allPoints)
             logger.info(point);
+
 
 
         RandomPointsGenerator r = new RandomPointsGenerator();
@@ -141,7 +188,10 @@ public class App {
         scan.close();
 
 
-        int id = 7; // change ID number to test
+       
+
+        int id = 5; // change ID number to test
+
         Point point = pointService.getPoint(id);
         if (point != null) {
             pointService.delete(point);
@@ -149,7 +199,27 @@ public class App {
         } else
             logger.info("Point with ID #" + id + " does not exist in database");
 
+        SqlSession session = MyBatisSession.getSqlSession();
+        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
+        Route route1 = routeMapper.getRoute(1);
 
+
+
+        Point point1 = pointService.create(allPoints.get(0));
+        logger.info("A new point has been added into the database: " + point1);
+
+        RouteService routeService = new RouteService();
+        Route route2 = new Route(allPoints.get(0), allPoints.get(1), 100500);
+        routeService.create(route1);
+        logger.info("A new route without waypoints has been added into the database: " + route1);
+
+        List<Point> wayPoints = new ArrayList<>();
+        wayPoints.add(allPoints.get(3));
+        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
+        routeService.create(route2);
+        logger.info("A new route with waypoints has been added into the database: " + route2);
 
     }
+
+
 }

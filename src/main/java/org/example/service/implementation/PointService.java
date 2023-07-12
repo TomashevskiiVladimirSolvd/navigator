@@ -13,13 +13,11 @@ public class PointService implements IPointService {
     public PointService() {
         this.pointDAO = new PointMapperImpl();
     }
-
     public Point create(Point point) {
         point.setId(null);
         pointDAO.insertPoint(point);
         return point;
     }
-
     public void delete(Point point) {
         pointDAO.deletePoint(point.getId());
     }

@@ -5,8 +5,8 @@ import org.example.model.Point;
 import java.util.List;
 
 public interface IPointService {
-    Point create(Point point);
-    void delete(Point point);
-    Point getPoint(int id);
-    List<Point> getPoints();
+    public Point create(Point point);
+    public void delete(Point point);
+    public Point getPoint(int id);
+    public List<Point> getPoints();
 }

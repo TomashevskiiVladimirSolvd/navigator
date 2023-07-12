@@ -1,7 +1,6 @@
 package org.example.model;
 
-import java.util.List;
-import java.util.Objects;
+import org.example.model.builder.PointBuilder;
 
 public class Point {
     private Integer id;
