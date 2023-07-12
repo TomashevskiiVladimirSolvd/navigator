@@ -5,6 +5,8 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -18,10 +20,6 @@ import org.example.service.implementation.PointService;
 import java.util.List;
 
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.example.configuration.MyBatisSession;
-
 public class App {
     private static final Logger logger = Logger.getLogger("GLOBAL");
 
@@ -30,114 +28,121 @@ public class App {
         PropertyConfigurator.configure("src/main/resources/log4j.properties");
         PointService pointService = new PointService();
 
-        RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
 
-        List<Point> pt = Stream.generate(randomPointsGenerator::createRandomPoint)
-                .limit(randomPointsGenerator.getNumPoints())
-                .collect(Collectors.toList());
-        System.out.println(pt);
 
-        List<Point> points = new ArrayList<>();
-        points.add(new Point(0, 0));
-        points.add(new Point(1, 1));
-        points.add(new Point(2, 2));
-        points.add(new Point(3, 3));
 
-        List<Route> routes = new ArrayList<>();
-        routes.add(new Route(points.get(0), points.get(1), 3));
-        routes.add(new Route(points.get(1), points.get(2), 4));
-        routes.add(new Route(points.get(2), points.get(3), 5));
-
-        //it wont work as navigate.route table no longer exist so the dao layer needs to be fixed the sql create
-        // and id column is missing in one of the tables
-
-//        PointDAO pointDAO = new PointDAOImpl();
-//        RouteDAO routeDAO = new RouteDAOImpl();
-//
-//        List<Point> points = pointDAO.getPoints();
-//        List<Route> routes = routeDAO.getRoutes();
 
         // Get start and end coordinates from command line arguments
         Scanner scanner = new Scanner(System.in);
 
-        // Get start and end coordinates from user input
-        System.out.print("Enter the x-coordinate of the start point: ");
-        double startX = scanner.nextDouble();
-        System.out.print("Enter the y-coordinate of the start point: ");
-        double startY = scanner.nextDouble();
-        System.out.print("Enter the x-coordinate of the end point: ");
-        double endX = scanner.nextDouble();
-        System.out.print("Enter the y-coordinate of the end point: ");
-        double endY = scanner.nextDouble();
+        // Prompt the user for their first name
+        System.out.print("Enter your first name: ");
+        String firstName = scanner.nextLine();
 
-        Point start = null;
-        Point end = null;
+        // Prompt the user for their last name
+        System.out.print("Enter your last name: ");
+        String lastName = scanner.nextLine();
 
-        // Find the start and end points
-        for (Point point : points) {
-            if (point.getXCoordinate() == startX && point.getYCoordinate() == startY) {
-                start = point;
-            }
-            if (point.getXCoordinate() == endX && point.getYCoordinate() == endY) {
-                end = point;
-            }
-        }
-
-        // Create the calculator instance
-        ShortestPathCalculator calculator = new ShortestPathCalculator(points, routes);
-
-        // Calculate the shortest path
-        long shortestPath = calculator.calculateShortestPath(start, end);
-
-        if (shortestPath == -1) {
-            System.out.println("No path found from (" + startX + ", " + startY + ") to (" + endX + ", " + endY + ")");
-        } else {
-            System.out.println("Shortest path from (" + startX + ", " + startY + ") to (" + endX + ", " + endY + ") is " + shortestPath);
-        }
-
-//        try (SqlSession session = MyBatisSessionManager.getSqlSession()) {
-//            PointDAO pointMapper = session.getMapper(PointDAO.class);
-//            RouteDAO routeMapper = session.getMapper(RouteDAO.class);
-//
-//            // Retrieve points and routes from the database
-//            List<Point> points = pointMapper.getPoints();
-//            List<Route> routes = routeMapper.getRoutes();
-//
-//            // Find the start and end points
-//            for (Point point : points) {
-//                if (point.getXCoordinate() == startX && point.getYCoordinate() == startY) {
-//                    start = point;
-//                }
-//                if (point.getXCoordinate() == endX && point.getYCoordinate() == endY) {
-//                    end = point;
-//                }
-//            }
-//
-//            // Create the calculator instance
-//            ShortestPathCalculator calculator = new ShortestPathCalculator(points, routes);
-//
-//            // Calculate the shortest path
-//            long shortestPath = calculator.calculateShortestPath(start, end);
-//
-//            if (shortestPath == -1) {
-//                System.out.println("No path found from (" + startX + ", " + startY + ") to (" + endX + ", " + endY + ")");
-//            } else {
-//                System.out.println("Shortest path from (" + startX + ", " + startY + ") to (" + endX + ", " + endY + ") is " + shortestPath);
-//            }
-//        }
+        // Print the greeting with the provided name
+        System.out.println("Hello, " + firstName + " " + lastName + "!");
 
 
-        List<Point> p = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
-                .limit(randomPointsGenerator.getNumPoints())
-                .collect(Collectors.toList());
-        logger.info("*** GENERATED POINTS ***");
-        for (Point point : p)
-            logger.info(point);
+
+
+
+
 
         List<Point> allPoints = pointService.getPoints();
         logger.info("*** POINTS IN DATABASE ***");
         for (Point point : allPoints)
             logger.info(point);
+
+
+        RandomPointsGenerator r = new RandomPointsGenerator();
+
+        // Generate 5 random points
+        List<Point> randomPoints = r.getRandomPoints(allPoints, 5);
+
+        // Print the random points
+        logger.info("*** RANDOM POINTS ***");
+        for (Point point : randomPoints) {
+            logger.info(point);
+        }
+
+        List<Route> route = new ArrayList<>();
+        route.add(new Route(allPoints.get(0), allPoints.get(1), 3));
+        route.add(new Route(allPoints.get(1), allPoints.get(2), 4));
+        route.add(new Route(allPoints.get(2), allPoints.get(3), 5));
+
+
+        System.out.println(allPoints.get(0));
+        System.out.println(allPoints.get(1));
+        System.out.println(allPoints.get(2));
+        System.out.println(allPoints.get(3));
+
+
+        Scanner scan = new Scanner(System.in);
+
+        // Start the program loop
+        boolean exit = false;
+
+        while (!exit) {
+            // Get start and end coordinates from user input
+            System.out.print("Enter the x-coordinate of the start point (or 'exit' to quit): ");
+            String startXInput = scan.next();
+
+            // Check if user wants to exit
+            if (startXInput.equalsIgnoreCase("exit")) {
+                exit = true;
+                continue;
+            }
+
+            double startXC = Double.parseDouble(startXInput);
+
+            System.out.print("Enter the y-coordinate of the start point: ");
+            double startYC = scan.nextDouble();
+            System.out.print("Enter the x-coordinate of the end point: ");
+            double endXC = scan.nextDouble();
+            System.out.print("Enter the y-coordinate of the end point: ");
+            double endYC = scan.nextDouble();
+
+            Point starts = null;
+            Point ends = null;
+
+            // Find the start and end points
+            for (Point point : allPoints) {
+                if (point.getXCoordinate() == startXC && point.getYCoordinate() == startYC) {
+                    starts = point;
+                }
+                if (point.getXCoordinate() == endXC && point.getYCoordinate() == endYC) {
+                    ends = point;
+                }
+            }
+
+            // Create the calculator instance
+            ShortestPathCalculator cal = new ShortestPathCalculator(allPoints, route);
+
+            // Calculate the shortest path
+            long shortestP = cal.calculateShortestPath(starts, ends);
+
+            if (shortestP == -1) {
+                System.out.println("No path found from (" + startXC + ", " + startYC + ") to (" + endXC + ", " + endYC + ")");
+            } else {
+                System.out.println("Shortest path from (" + startXC + ", " + startYC + ") to (" + endXC + ", " + endYC + ") is " + shortestP);
+            }
+
+            // Get the points between start and end
+            List<Point> pointsBetween = cal.getPointsBetween(starts, ends);
+            if (!pointsBetween.isEmpty()) {
+                System.out.println("Points between (" + startXC + ", " + startYC + ") and (" + endXC + ", " + endYC + "):");
+                for (Point point : pointsBetween) {
+                    System.out.println(point);
+                }
+            }
+        }
+
+        scan.close();
+
 
         int id = 7; // change ID number to test
         Point point = pointService.getPoint(id);

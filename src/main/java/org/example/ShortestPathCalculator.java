@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +64,31 @@ public class ShortestPathCalculator {
 
 
 
+  }
+
+  public List<Point> getPointsBetween(Point start, Point end) {
+    List<Point> pointsBetween = new ArrayList<>();
+
+    Point currentPoint = start;
+    while (!currentPoint.equals(end)) {
+      pointsBetween.add(currentPoint);
+      currentPoint = getNextPoint(currentPoint);
+      if (currentPoint == null) {
+        // No more points to traverse
+        break;
+      }
+    }
+
+    return pointsBetween;
+  }
+
+  private Point getNextPoint(Point currentPoint) {
+    for (Route route : routes) {
+      if (route.getStartPoint().equals(currentPoint)) {
+        return route.getEndPoint();
+      }
+    }
+    return null;
   }
 
 }
