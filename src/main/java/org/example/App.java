@@ -26,11 +26,8 @@ public class App {
     public static void main( String[] args ) {
 
         PropertyConfigurator.configure("src/main/resources/log4j.properties");
+        //point service
         PointService pointService = new PointService();
-
-
-
-
 
         // Get start and end coordinates from command line arguments
         Scanner scanner = new Scanner(System.in);
