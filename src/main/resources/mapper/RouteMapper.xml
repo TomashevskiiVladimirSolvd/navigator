@@ -14,10 +14,14 @@
     <resultMap id="routesResult" type="org.example.model.Route">
         <result property="id" column="id"/>
         <result property="distance" column="distance"/>
-        <association property="startPoint" columnPrefix="start_point"
-                     resultMap="org.example.dao.interfaces.PointDAO.pointsResult"/>
-        <association property="endPoint" columnPrefix="end_point"
-                     resultMap="org.example.dao.interfaces.PointDAO.pointsResult"/>
+        <association property="startPoint" javaType="org.example.model.Point" resultMap="pointsResult"/>
+        <association property="endPoint" javaType="org.example.model.Point" resultMap="pointsResult"/>
+    </resultMap>
+
+    <resultMap id="pointsResult" type="org.example.model.Point">
+        <result property="id" column="id"/>
+        <result property="xCoordinate" column="x_coordinate"/>
+        <result property="yCoordinate" column="y_coordinate"/>
     </resultMap>
 
     <select id="getRoute" resultMap="routesResult">
