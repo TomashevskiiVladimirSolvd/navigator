@@ -26,6 +26,8 @@ public class App {
         Configurator.initialize(null, "src/main/resources/log4j2.xml");
         PointService pointService = new PointService();
 
+        /**
+
         RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
 
         List<Point> points = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
@@ -67,14 +69,17 @@ public class App {
         Point point1 = pointService.create(allPoints.get(0));
         logger.info("A new point has been added into the database: " + point1);
 
+        **/
+
         RouteService routeService = new RouteService();
-        Route route2 = new Route(allPoints.get(0), allPoints.get(1), 100500);
+        Route route2 = new Route(pointService.getPoint(1), pointService.getPoint(2), 100500);
         routeService.create(route2);
         logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route2.getId()));
 
         List<Point> wayPoints = new ArrayList<>();
-        wayPoints.add(allPoints.get(3));
-        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
+        wayPoints.add(pointService.getPoint(3));
+        wayPoints.add(pointService.getPoint(4));
+        Route route3 = new Route(pointService.getPoint(6), pointService.getPoint(8), 500100, wayPoints);
         routeService.create(route3);
         logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route3.getId()));
     }

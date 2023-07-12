@@ -12,24 +12,18 @@
     </update>
 
     <resultMap id="routesResult" type="org.example.model.Route">
-        <result property="id" column="id"/>
-        <result property="distance" column="distance"/>
-        <association property="startPoint" javaType="org.example.model.Point" resultMap="pointsResult"/>
-        <association property="endPoint" javaType="org.example.model.Point" resultMap="pointsResult"/>
-    </resultMap>
-
-    <resultMap id="pointsResult" type="org.example.model.Point">
-        <result property="id" column="id"/>
-        <result property="xCoordinate" column="x_coordinate"/>
-        <result property="yCoordinate" column="y_coordinate"/>
+        <id property="id" column="id" />
+        <result property="distance" column="distance" />
+        <association property="startPoint" column="start_point" select="org.example.dao.interfaces.PointDAO.getPoint"/>
+        <association property="endPoint" column="end_point" select="org.example.dao.interfaces.PointDAO.getPoint"/>
     </resultMap>
 
     <select id="getRoute" resultMap="routesResult">
-        SELECT id, start_point, end_point, distance FROM routes WHERE id = #{id}
+        SELECT r.id, r.start_point, r.end_point, r.distance FROM routes r WHERE r.id = #{id}
     </select>
 
     <select id="getRoutes" resultMap="routesResult">
-        SELECT id, start_point, end_point, distance FROM routes
+        SELECT r.id, r.start_point, r.end_point, r.distance FROM routes r
     </select>
 
     <update id="setStartPoint" parameterType="map">
