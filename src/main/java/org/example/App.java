@@ -1,6 +1,7 @@
 package org.example;
 
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -45,6 +46,8 @@ public class App {
 
 
         Scanner scan = new Scanner(System.in);
+
+        List<String> calculationHistory = new ArrayList<>();
 
         // Start the program loop
         boolean exit = false;
@@ -101,8 +104,12 @@ public class App {
                 if (unit.equalsIgnoreCase("miles")) {
                     shortestP = cal.kilometersToMiles(shortestP);
                     System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " miles");
+                    String calculationResult = "Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " miles";
+                    calculationHistory.add(calculationResult);
                 } else if (unit.equalsIgnoreCase("km")) {
                     System.out.println("Shortest path from (" + startXC + ") to ( " + endYC + ") is " + shortestP + " km");
+                    String calculationResult = "Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " km";
+                    calculationHistory.add(calculationResult);
                 } else {
                     System.out.println("Invalid unit. Route value will be displayed in default units.");
                     System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " km");
@@ -130,7 +137,13 @@ public class App {
 
         scan.close();
 
+        System.out.println("\nCalculation History:");
+        for (String calculation : calculationHistory) {
+            System.out.println(calculation);
+        }
+
         System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨\nIf you would like to use the app again, please make a selection from the main menu.");
+
 
     }
 }
