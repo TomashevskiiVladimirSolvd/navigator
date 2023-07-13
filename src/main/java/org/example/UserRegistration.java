@@ -38,24 +38,24 @@ public class UserRegistration {
                 case "1": // creates new user and records into database
                     System.out.println("\n✦✦✦ CREATE AN ACCOUNT ✦✦✦");
                     System.out.print("Enter your first name: ");
-                    firstName = capitalize(scanner.nextLine());
+                    firstName = containsWhitespace(capitalize(scanner.nextLine()));
                     System.out.print("Enter your last name: ");
-                    lastName = capitalize(scanner.nextLine());
+                    lastName = containsWhitespace(capitalize(scanner.nextLine()));
                     System.out.print("Enter your email: ");
                     email = scanner.nextLine();
 
                     user = userService.getUser(email);
                     if (user != null) {
-                        System.out.println("\n*** This email is already associated with another account. Please log in instead. ***\n");
+                        System.out.println("\n*** This email is already associated with another account. Please log in instead. ***");
                         break;
                     }
 
                     System.out.println("Please create a strong password to keep your account secured.");
                     while (!match) {
                         System.out.print("Enter your password: ");
-                        pass1 = scanner.nextLine();
+                        pass1 = containsWhitespace(scanner.nextLine());
                         System.out.print("Enter your password again: ");
-                        pass2 = scanner.nextLine();
+                        pass2 = containsWhitespace(scanner.nextLine());
                         if (!pass1.equals(pass2)) {
                             System.out.println(">>> The passwords do not match. Please enter your password again. <<<");
                         } else {
@@ -74,12 +74,12 @@ public class UserRegistration {
                     boolean login = false;
                     while (!login) {
                         System.out.print("Enter your email: ");
-                        email = scanner.nextLine();
+                        email = containsWhitespace(scanner.nextLine());
                         user = userService.getUser(email);
                         if (user != null) {
                             while (!match) {
                                 System.out.print("Enter your password: ");
-                                pass1 = scanner.nextLine();
+                                pass1 = containsWhitespace(scanner.nextLine());
                                 pass2 = user.getPassword();
                                 if (pass1.equals(pass2)) {
                                     System.out.print("\nWelcome back, " + user.getName() + "!\n");
@@ -118,5 +118,15 @@ public class UserRegistration {
 
     public static String capitalize(String str) {
        return str.substring(0, 1).toUpperCase().concat(str.substring(1).toLowerCase());
+    }
+
+    public static String containsWhitespace(String str) {
+        Scanner scanner = new Scanner(System.in);
+        while (str.contains(" ")) {
+            System.out.println("Cannot contain whitespaces.");
+            System.out.print("Try again: ");
+            str = scanner.nextLine();
+        }
+        return str;
     }
 }
