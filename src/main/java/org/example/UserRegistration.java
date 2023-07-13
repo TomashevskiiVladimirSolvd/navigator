@@ -7,7 +7,7 @@ import org.example.service.implementation.UserService;
 import java.util.Scanner;
 
 public class UserRegistration {
-    private final static UserService userService = new UserService();
+    public final static UserService userService = new UserService();
     private final static int maxAttempts = 3;
 
     public static User start() {
