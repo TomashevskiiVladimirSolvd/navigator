@@ -7,9 +7,9 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.ibatis.session.SqlSession;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.model.Route;
 import org.example.model.Point;
 
@@ -37,45 +37,17 @@ import java.util.List;
 
 
 public class App {
-    //private static final Logger logger = LogManager.getLogger("APP");
-    private static final Logger logger = Logger.getLogger("GLOBAL");
+    private static final Logger logger = LogManager.getLogger("APP");
 
     public static void main( String[] args ) {
+        User user = UserRegistration.start(); // returns the current user of the program after registration
+        // add other app implementation below here
+        // if you want to receive information about the user, use the user object above
+        System.out.println("Where would you like to go?");
+        System.out.println("Select from the list of available cities below.");
 
-
-        PropertyConfigurator.configure("src/main/resources/log4j.properties");
-        //point service
         PointService pointService = new PointService();
         RouteService routeService = new RouteService();
-
-
-
-        // Get start and end coordinates from command line arguments
-        Scanner scanner = new Scanner(System.in);
-
-        String intro = "======\033[0;1mWelcome to the Shortest Path App\033[0m======\n";
-
-        System.out.print(intro);
-
-        // Prompt the user for their first name
-        System.out.print("Enter your first name: ");
-        String firstName = scanner.nextLine();
-
-        // Prompt the user for their last name
-        System.out.print("Enter your last name: ");
-        String lastName = scanner.nextLine();
-
-        // Print the greeting with the provided name
-        System.out.println("Hello, " + firstName + " " + lastName + "!");
-
-        //Configurator.initialize(null, "src/main/resources/log4j2.xml");
-        //PointService pointService = new PointService();
-
-
-
-
-
-
 
         List<Route> allRoutes = routeService.getRoutes();
         logger.info("*** ROUTES IN DATABASE ***");
@@ -83,24 +55,10 @@ public class App {
             logger.info(rou);
 
         List<Point> allPoints = pointService.getPoints();
-        logger.info("*** POINTS IN DATABASE ***");
+        System.out.println("\n✦✦✦ LIST OF CITIES ✦✦✦");
         for (Point point : allPoints)
-            logger.info(point);
+            System.out.println("[ " + point.getId() + " ] " + point.getCityName());
 
-
-
-
-
-        RandomPointsGenerator r = new RandomPointsGenerator();
-
-        // Generate 5 random points
-        List<Point> randomPoints = r.getRandomPoints(allPoints, 5);
-
-        // Print the random points
-        logger.info("*** RANDOM POINTS ***");
-        for (Point point : randomPoints) {
-            logger.info(point);
-        }
 
 
 
@@ -189,6 +147,7 @@ public class App {
         }
 
         scan.close();
+
 
 
 

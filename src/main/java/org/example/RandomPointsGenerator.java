@@ -52,7 +52,7 @@ public class RandomPointsGenerator {
         Random random = new Random();
         double x = minX + (maxX - minX) * random.nextDouble();
         double y = minY + (maxY - minY) * random.nextDouble();
-        return new Point(x, y);
+        return new Point(x, y, null);
     }
 
     public static List<Point> getRandomPoints(List<Point> allPoints, int count) {
