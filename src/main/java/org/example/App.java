@@ -15,9 +15,9 @@ import org.example.model.Point;
 
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.core.config.Configurator;
 import org.example.configuration.MyBatisSession;
 import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Observer.DesiredPath;
@@ -37,7 +37,8 @@ import java.util.List;
 
 
 public class App {
-    private static final Logger logger = LogManager.getLogger("APP");
+    //private static final Logger logger = LogManager.getLogger("APP");
+    private static final Logger logger = Logger.getLogger("GLOBAL");
 
     public static void main( String[] args ) {
 
@@ -66,33 +67,33 @@ public class App {
 
 
 
-        Configurator.initialize(null, "src/main/resources/log4j2.xml");
-        PointService pointService = new PointService();
+        //Configurator.initialize(null, "src/main/resources/log4j2.xml");
+        //PointService pointService = new PointService();
 
-        RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
-
-        List<Point> points = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
-                .limit(randomPointsGenerator.getNumPoints())
-                .collect(Collectors.toList());
-        System.out.println(points);
+//        RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
+//
+//        List<Point> points = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
+//                .limit(randomPointsGenerator.getNumPoints())
+//                .collect(Collectors.toList());
+//        System.out.println(points);
 
         //Observer logic
-        User ourMentor = new UserBuilder()
-                .setName("Andrei")
-                .setSurname("Trukhanovich")
-                .setEmail("atrukhanovich@solvd.com")
-                .getUser();
-        DesiredPath routing = new DesiredPath();
-        routing.subscribe(ourMentor);
-        Route route = new Route();
-        routing.setRoute(route);
-        ourMentor.setDesiredPath(routing);
-        // calculate the optimal route and then set that info to route
-        routing.notifyUsers();
+//        User ourMentor = new UserBuilder()
+//                .setName("Andrei")
+//                .setSurname("Trukhanovich")
+//                .setEmail("atrukhanovich@solvd.com")
+//                .getUser();
+//        DesiredPath routing = new DesiredPath();
+//        routing.subscribe(ourMentor);
+//        Route routes = new Route();
+//        routing.setRoute(routes);
+//        ourMentor.setDesiredPath(routing);
+//        // calculate the optimal route and then set that info to route
+//        routing.notifyUsers();
 
-        logger.info("*** GENERATED POINTS ***");
-        for (Point point : points)
-            logger.info(point);
+//        logger.info("*** GENERATED POINTS ***");
+//        for (Point point : points)
+//            logger.info(point);
 
 
         List<Point> allPoints = pointService.getPoints();
@@ -183,6 +184,15 @@ public class App {
                     System.out.println(point);
                 }
             }
+
+            // Get the route history
+            List<Route> routeHistory = cal.getRouteHistory(starts, ends);
+            if (!routeHistory.isEmpty()) {
+                System.out.println("Route history from (" + startXC + ", " + startYC + ") to (" + endXC + ", " + endYC + "):");
+                for (Route rout : routeHistory) {
+                    System.out.println(rout);
+                }
+            }
         }
 
         scan.close();
@@ -199,25 +209,25 @@ public class App {
         } else
             logger.info("Point with ID #" + id + " does not exist in database");
 
-        SqlSession session = MyBatisSession.getSqlSession();
-        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
-        Route route1 = routeMapper.getRoute(1);
-
-
-
-        Point point1 = pointService.create(allPoints.get(0));
-        logger.info("A new point has been added into the database: " + point1);
-
-        RouteService routeService = new RouteService();
-        Route route2 = new Route(allPoints.get(0), allPoints.get(1), 100500);
-        routeService.create(route1);
-        logger.info("A new route without waypoints has been added into the database: " + route1);
-
-        List<Point> wayPoints = new ArrayList<>();
-        wayPoints.add(allPoints.get(3));
-        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
-        routeService.create(route2);
-        logger.info("A new route with waypoints has been added into the database: " + route2);
+//        SqlSession session = MyBatisSession.getSqlSession();
+//        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
+//        Route route1 = routeMapper.getRoute(1);
+//
+//
+//
+//        Point point1 = pointService.create(allPoints.get(0));
+//        logger.info("A new point has been added into the database: " + point1);
+//
+//        RouteService routeService = new RouteService();
+//        Route route2 = new Route(allPoints.get(0), allPoints.get(1), 100500);
+//        routeService.create(route1);
+//        logger.info("A new route without waypoints has been added into the database: " + route1);
+//
+//        List<Point> wayPoints = new ArrayList<>();
+//        wayPoints.add(allPoints.get(3));
+//        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
+//        routeService.create(route2);
+//        logger.info("A new route with waypoints has been added into the database: " + route2);
 
     }
 
