@@ -22,13 +22,19 @@ public class ShortestPathCalculator {
   public long calculateShortestPath(Point start, Point end) {
     // Find the start and end points by ID
     Point starts = points.stream()
-            .filter(p -> p.getId().equals(start.getId()))
-            .findFirst()
-            .orElse(null);
+        .filter(p -> p.getId().equals(start.getId()))
+        .findFirst()
+        .orElse(null);
     Point ends = points.stream()
-            .filter(p -> p.getId().equals(end.getId()))
-            .findFirst()
-            .orElse(null);
+        .filter(p -> p.getId().equals(end.getId()))
+        .findFirst()
+        .orElse(null);
+
+    if (starts == null || ends == null) {
+      System.out.println("Invalid start or end point ID.");
+      return -1;
+    }
+
 
     if (starts == null || ends == null) {
       System.out.println("Invalid start or end point ID.");
@@ -85,7 +91,7 @@ public class ShortestPathCalculator {
   public List<Point> getPointsBetween(Point start, Point end) {
     List<Point> pointsBetween = new ArrayList<>();
 
-    Point currentPoint = start;
+    Point currentPoint = getNextPoint(start);
     while (!currentPoint.equals(end)) {
       pointsBetween.add(currentPoint);
       currentPoint = getNextPoint(currentPoint);
@@ -131,4 +137,7 @@ public class ShortestPathCalculator {
     return (long) (kilometers * 0.621371);
   }
 
+
 }
+
+

@@ -1,5 +1,6 @@
 package org.example.model;
 
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.model.observer.DesiredPath;
@@ -81,13 +82,14 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", desiredPath=" + desiredPath +
-                '}';
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", surname='" + surname + '\'' +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", desiredPath=" + desiredPath +
+            '}';
+
     }
 
     public DesiredPath getDesiredPath() {
