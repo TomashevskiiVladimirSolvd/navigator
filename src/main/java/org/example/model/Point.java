@@ -3,20 +3,27 @@ package org.example.model;
 import java.util.Objects;
 import org.example.model.builder.PointBuilder;
 
+import java.util.Objects;
+
 public class Point {
+
   private Integer id;
   private double xCoordinate;
   private double yCoordinate;
   private String cityName;
 
+
+
   public Point() {
   }
+
 
   public Point(double xCoordinate, double yCoordinate, String cityName) {
     this.xCoordinate = xCoordinate;
     this.yCoordinate = yCoordinate;
     this.cityName = cityName;
   }
+
 
   public Integer getId() {
     return id;
@@ -72,4 +79,7 @@ public class Point {
         ", cityName='" + cityName + '\'' +
         '}';
   }
+
 }
+
+

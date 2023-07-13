@@ -1,7 +1,9 @@
 package org.example.service.interfaces;
 
+
 import java.util.List;
 import org.example.model.User;
+
 
 public interface IUserService {
     public User create(User user);

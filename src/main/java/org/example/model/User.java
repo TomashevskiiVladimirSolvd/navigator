@@ -1,11 +1,9 @@
 package org.example.model;
 
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.model.Observer.DesiredPath;
+import org.example.model.observer.DesiredPath;
 
 import java.util.Objects;
 
@@ -91,6 +89,7 @@ public class User {
             ", password='" + password + '\'' +
             ", desiredPath=" + desiredPath +
             '}';
+
     }
 
     public DesiredPath getDesiredPath() {

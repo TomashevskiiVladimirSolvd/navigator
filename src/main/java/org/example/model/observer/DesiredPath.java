@@ -1,4 +1,4 @@
-package org.example.model.Observer;
+package org.example.model.observer;
 
 import org.example.model.Point;
 import org.example.model.Route;

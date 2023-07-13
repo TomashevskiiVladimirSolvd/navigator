@@ -1,12 +1,15 @@
 package org.example.model.builder;
-import org.example.model.Observer.DesiredPath;
+
 import org.example.model.User;
+
 public class UserBuilder {
+
   private Integer id;
   private String name;
   private String surname;
   private String email;
   private String password;
+
 
   public UserBuilder() {
 
@@ -40,4 +43,5 @@ public class UserBuilder {
   public User getUser() {
     return new User(name, surname, email, password);
   }
+
 }

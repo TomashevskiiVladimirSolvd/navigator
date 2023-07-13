@@ -1,40 +1,20 @@
 package org.example;
 
 
-
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.apache.ibatis.session.SqlSession;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.model.Route;
 import org.example.model.Point;
 
-
-import org.apache.ibatis.session.SqlSession;
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
-//import org.apache.logging.log4j.core.config.Configurator;
-import org.example.configuration.MyBatisSession;
-import org.example.dao.interfaces.RouteDAO;
-import org.example.model.Observer.DesiredPath;
-import org.example.model.Point;
-import org.example.model.Route;
 import org.example.model.User;
-import org.example.model.builder.RouteBuilder;
-import org.example.model.builder.UserBuilder;
 
 import org.example.service.implementation.PointService;
 import org.example.service.implementation.RouteService;
 
-
-import java.util.ArrayList;
-
 import java.util.List;
-
 
 public class App {
     private static final Logger logger = LogManager.getLogger("APP");
@@ -49,10 +29,12 @@ public class App {
         PointService pointService = new PointService();
         RouteService routeService = new RouteService();
 
+
         List<Route> allRoutes = routeService.getRoutes();
         logger.info("*** ROUTES IN DATABASE ***");
         for (Route rou : allRoutes)
             logger.info(rou);
+
 
         List<Point> allPoints = pointService.getPoints();
         System.out.println("\n✦✦✦ LIST OF CITIES ✦✦✦");
@@ -136,10 +118,10 @@ public class App {
                 }
             }
 
-            // Get the route history
+            // Get the route itinerary
             List<Route> routeHistory = cal.getRouteHistory(starts, ends);
             if (!routeHistory.isEmpty()) {
-                System.out.println("Route history from (" + startXC + ") to ( " + endYC + "):");
+                System.out.println("Route itinerary from (" + startXC + ") to ( " + endYC + "):");
                 for (Route rout : routeHistory) {
                     System.out.println(rout);
                 }
@@ -148,11 +130,7 @@ public class App {
 
         scan.close();
 
-
-
-
+        System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨\nIf you would like to use the app again, please make a selection from the main menu.");
 
     }
-
-
 }
