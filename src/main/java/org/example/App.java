@@ -20,12 +20,13 @@ import java.util.List;
 public class App {
     private static final Logger logger = LogManager.getLogger("APP");
 
-    public static void main( String[] args ) {
-        User user = UserRegistration.start(); // returns the current user of the program after registration
+    public static void main(String[] args) {
+//        User user = UserRegistration.start(); // returns the current user of the program after registration
         // add other app implementation below here
         // if you want to receive information about the user, use the user object above
-        System.out.println("Where would you like to go?");
+        System.out.println("\nWhere would you like to go?");
         System.out.println("Select from the list of available cities below.");
+        System.out.println("Loading cities...");
 
         PointService pointService = new PointService();
         RouteService routeService = new RouteService();
@@ -33,16 +34,13 @@ public class App {
 
         List<Route> allRoutes = routeService.getRoutes();
         logger.info("*** ROUTES IN DATABASE ***");
-        for (Route rou : allRoutes)
-            logger.info(rou);
+        for (Route route : allRoutes);
 
 
         List<Point> allPoints = pointService.getPoints();
         System.out.println("\n✦✦✦ LIST OF CITIES ✦✦✦");
         for (Point point : allPoints)
             System.out.println("[ " + point.getId() + " ] " + point.getCityName());
-
-
 
 
         Scanner scan = new Scanner(System.in);
@@ -75,7 +73,7 @@ public class App {
 
             // Find the start and end points
             for (Point point : allPoints) {
-                if (point.getId() == startXC ) {
+                if (point.getId() == startXC) {
                     starts = point;
                 }
                 if (point.getId() == endYC) {
@@ -96,14 +94,14 @@ public class App {
             long shortestP = cal.calculateShortestPath(starts, ends);
 
             if (shortestP == -1) {
-                System.out.println("No path found from (" + startXC +  ") to ( " + endYC + ")");
+                System.out.println("No path found from (" + startXC + ") to ( " + endYC + ")");
             } else {
                 System.out.print("Enter the desired unit (miles or km): ");
                 String unit = scan.next();
 
                 if (unit.equalsIgnoreCase("miles")) {
                     shortestP = cal.kilometersToMiles(shortestP);
-                    System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " miles");
+                    System.out.println("Shortest path from (" + startXC + ") to ( " + endYC + ") is " + shortestP + " miles");
                     String calculationResult = "Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " miles";
                     calculationHistory.add(calculationResult);
                 } else if (unit.equalsIgnoreCase("km")) {
@@ -112,7 +110,7 @@ public class App {
                     calculationHistory.add(calculationResult);
                 } else {
                     System.out.println("Invalid unit. Route value will be displayed in default units.");
-                    System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " km");
+                    System.out.println("Shortest path from (" + startXC + ") to ( " + endYC + ") is " + shortestP + " km");
                 }
             }
 
