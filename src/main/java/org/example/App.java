@@ -30,7 +30,7 @@ public class App {
         RouteService routeService = new RouteService();
 
         List<Route> allRoutes = routeService.getRoutes();
-        for (Route rou : allRoutes) ;
+        for (Route rou : allRoutes);
 
         List<Point> allPoints = pointService.getPoints();
         System.out.println("\n✦✦✦ LIST OF CITIES ✦✦✦");
