@@ -91,7 +91,7 @@ public class ShortestPathCalculator {
   public List<Point> getPointsBetween(Point start, Point end) {
     List<Point> pointsBetween = new ArrayList<>();
 
-    Point currentPoint = start;
+    Point currentPoint = getNextPoint(start);
     while (!currentPoint.equals(end)) {
       pointsBetween.add(currentPoint);
       currentPoint = getNextPoint(currentPoint);
