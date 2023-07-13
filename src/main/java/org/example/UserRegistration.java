@@ -9,14 +9,10 @@ import org.example.service.implementation.UserService;
 public class UserRegistration {
   private final static UserService userService = new UserService();
   private final static int maxAttempts = 3;
+  private static User user;
 
-  public static User start() {
+  public static void start() {
     Scanner scanner = new Scanner(System.in);
-    User user = null;
-
-    System.out.println("✦✦✦ WELCOME TO NAVIGATOR ✦✦✦");
-    System.out.println("If you are a new user, sign up!");
-    System.out.println("If you are a returning user, please log in.");
 
     boolean running = true;
     while (running) {
@@ -64,7 +60,7 @@ public class UserRegistration {
               User newUser = new UserBuilder().setName(firstName).setSurname(lastName).setEmail(email).setPassword(pass1).getUser();
               userService.create(newUser);
               System.out.println("\nWelcome, " + firstName + "!");
-              System.out.println("Your account has been created. Thank you for using Navigator!");
+              System.out.println("Your account has been created. Thank you for using Navigator!\n");
               running = false;
               match = true;
             }
@@ -83,12 +79,11 @@ public class UserRegistration {
                 pass1 = containsWhitespace(scanner.nextLine());
                 pass2 = user.getPassword();
                 if (pass1.equals(pass2)) {
-                  System.out.print("\nWelcome back, " + user.getName() + "!\n");
+                  System.out.println("\nWelcome back, " + user.getName() + "!\n");
                   match = true;
                   login = true;
                   running = false;
-                }
-                else {
+                } else {
                   System.out.println(">>> The password provided was incorrect. <<<");
                   count++;
                   if (count == maxAttempts) {
@@ -98,8 +93,7 @@ public class UserRegistration {
                   }
                 }
               }
-            }
-            else {
+            } else {
               System.out.println(">>> This email is not associated with an account. <<<");
               count++;
               if (count == maxAttempts) {
@@ -110,14 +104,17 @@ public class UserRegistration {
           }
           break;
         case "3":
-          System.out.println("\n*** Thank you for using Navigator, goodbye! ***");
+          System.out.println("\n✨✨✨ Thank you for using Navigator, goodbye! ✨✨✨");
           System.exit(0);
           break;
-        default :
+        default:
           System.out.println("\n*** Sorry, that is not a valid option. Please sign up or log in if you already have an account. ***\n");
           break;
       }
     }
+  }
+
+  public static User getCurrentUser() {
     return user;
   }
 
