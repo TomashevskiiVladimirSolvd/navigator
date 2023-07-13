@@ -70,12 +70,18 @@ public class App {
         //Configurator.initialize(null, "src/main/resources/log4j2.xml");
         //PointService pointService = new PointService();
 
-//        RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
-//
-//        List<Point> points = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
-//                .limit(randomPointsGenerator.getNumPoints())
-//                .collect(Collectors.toList());
-//        System.out.println(points);
+
+
+
+        /**
+
+        RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
+
+        List<Point> points = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
+                .limit(randomPointsGenerator.getNumPoints())
+                .collect(Collectors.toList());
+        System.out.println(points);
+
 
         //Observer logic
 //        User ourMentor = new UserBuilder()
@@ -209,6 +215,7 @@ public class App {
         } else
             logger.info("Point with ID #" + id + " does not exist in database");
 
+
 //        SqlSession session = MyBatisSession.getSqlSession();
 //        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
 //        Route route1 = routeMapper.getRoute(1);
@@ -228,6 +235,37 @@ public class App {
 //        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
 //        routeService.create(route2);
 //        logger.info("A new route with waypoints has been added into the database: " + route2);
+
+        SqlSession session = MyBatisSession.getSqlSession();
+        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
+        Route route1 = routeMapper.getRoute(1);
+
+
+
+        Point point1 = pointService.create(allPoints.get(0));
+        logger.info("A new point has been added into the database: " + point1);
+
+        **/
+
+//        RouteService routeService = new RouteService();
+//        Route route2 = new Route(pointService.getPoint(1), pointService.getPoint(2), 100500);
+//        routeService.create(route2);
+//        logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route2.getId()));
+//
+//        List<Point> wayPoints = new ArrayList<>();
+//
+//        wayPoints.add(allPoints.get(3));
+//        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
+//        routeService.create(route2);
+//        logger.info("A new route with waypoints has been added into the database: " + route2);
+//
+//
+//
+//        wayPoints.add(pointService.getPoint(3));
+//        wayPoints.add(pointService.getPoint(4));
+//        Route route3 = new Route(pointService.getPoint(6), pointService.getPoint(8), 500100, wayPoints);
+//        routeService.create(route3);
+//        logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route3.getId()));
 
     }
 
