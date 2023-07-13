@@ -46,9 +46,16 @@ public class App {
         PropertyConfigurator.configure("src/main/resources/log4j.properties");
         //point service
         PointService pointService = new PointService();
+        RouteService routeService = new RouteService();
+
+
 
         // Get start and end coordinates from command line arguments
         Scanner scanner = new Scanner(System.in);
+
+        String intro = "======\033[0;1mWelcome to the Shortest Path App\033[0m======\n";
+
+        System.out.print(intro);
 
         // Prompt the user for their first name
         System.out.print("Enter your first name: ");
@@ -61,51 +68,26 @@ public class App {
         // Print the greeting with the provided name
         System.out.println("Hello, " + firstName + " " + lastName + "!");
 
-
-
-
-
-
-
         //Configurator.initialize(null, "src/main/resources/log4j2.xml");
         //PointService pointService = new PointService();
 
 
 
 
-        /**
-
-        RandomPointsGenerator randomPointsGenerator = new RandomPointsGenerator(0,20,0,20, 5);
-
-        List<Point> points = Stream.generate(() -> pointService.create(randomPointsGenerator.createRandomPoint()))
-                .limit(randomPointsGenerator.getNumPoints())
-                .collect(Collectors.toList());
-        System.out.println(points);
 
 
-        //Observer logic
-//        User ourMentor = new UserBuilder()
-//                .setName("Andrei")
-//                .setSurname("Trukhanovich")
-//                .setEmail("atrukhanovich@solvd.com")
-//                .getUser();
-//        DesiredPath routing = new DesiredPath();
-//        routing.subscribe(ourMentor);
-//        Route routes = new Route();
-//        routing.setRoute(routes);
-//        ourMentor.setDesiredPath(routing);
-//        // calculate the optimal route and then set that info to route
-//        routing.notifyUsers();
 
-//        logger.info("*** GENERATED POINTS ***");
-//        for (Point point : points)
-//            logger.info(point);
-
+        List<Route> allRoutes = routeService.getRoutes();
+        logger.info("*** ROUTES IN DATABASE ***");
+        for (Route rou : allRoutes)
+            logger.info(rou);
 
         List<Point> allPoints = pointService.getPoints();
         logger.info("*** POINTS IN DATABASE ***");
         for (Point point : allPoints)
             logger.info(point);
+
+
 
 
 
@@ -120,16 +102,6 @@ public class App {
             logger.info(point);
         }
 
-        List<Route> route = new ArrayList<>();
-        route.add(new Route(allPoints.get(0), allPoints.get(1), 3));
-        route.add(new Route(allPoints.get(1), allPoints.get(2), 4));
-        route.add(new Route(allPoints.get(2), allPoints.get(3), 5));
-
-
-        System.out.println(allPoints.get(0));
-        System.out.println(allPoints.get(1));
-        System.out.println(allPoints.get(2));
-        System.out.println(allPoints.get(3));
 
 
         Scanner scan = new Scanner(System.in);
@@ -139,7 +111,7 @@ public class App {
 
         while (!exit) {
             // Get start and end coordinates from user input
-            System.out.print("Enter the x-coordinate of the start point (or 'exit' to quit): ");
+            System.out.print("Enter the ID of the start point (or 'exit' to quit): ");
             String startXInput = scan.next();
 
             // Check if user wants to exit
@@ -148,44 +120,59 @@ public class App {
                 continue;
             }
 
-            double startXC = Double.parseDouble(startXInput);
+            int startXC = Integer.parseInt(startXInput);
 
-            System.out.print("Enter the y-coordinate of the start point: ");
-            double startYC = scan.nextDouble();
-            System.out.print("Enter the x-coordinate of the end point: ");
-            double endXC = scan.nextDouble();
-            System.out.print("Enter the y-coordinate of the end point: ");
-            double endYC = scan.nextDouble();
+            System.out.print("Enter the ID of the end point: ");
+            int endYC = scan.nextInt();
 
             Point starts = null;
             Point ends = null;
+//            Point starts = new Point(1);
+//            Point ends = new Point(2);
 
             // Find the start and end points
             for (Point point : allPoints) {
-                if (point.getXCoordinate() == startXC && point.getYCoordinate() == startYC) {
+                if (point.getId() == startXC ) {
                     starts = point;
                 }
-                if (point.getXCoordinate() == endXC && point.getYCoordinate() == endYC) {
+                if (point.getId() == endYC) {
                     ends = point;
                 }
             }
 
+            // Check if start or end points were not found
+            if (starts == null || ends == null) {
+                System.out.println("Invalid start or end point ID.");
+                continue;
+            }
+
             // Create the calculator instance
-            ShortestPathCalculator cal = new ShortestPathCalculator(allPoints, route);
+            ShortestPathCalculator cal = new ShortestPathCalculator(allPoints, allRoutes);
 
             // Calculate the shortest path
             long shortestP = cal.calculateShortestPath(starts, ends);
 
             if (shortestP == -1) {
-                System.out.println("No path found from (" + startXC + ", " + startYC + ") to (" + endXC + ", " + endYC + ")");
+                System.out.println("No path found from (" + startXC +  ") to ( " + endYC + ")");
             } else {
-                System.out.println("Shortest path from (" + startXC + ", " + startYC + ") to (" + endXC + ", " + endYC + ") is " + shortestP);
+                System.out.print("Enter the desired unit (miles or km): ");
+                String unit = scan.next();
+
+                if (unit.equalsIgnoreCase("miles")) {
+                    shortestP = cal.kilometersToMiles(shortestP);
+                    System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " miles");
+                } else if (unit.equalsIgnoreCase("km")) {
+                    System.out.println("Shortest path from (" + startXC + ") to ( " + endYC + ") is " + shortestP + " km");
+                } else {
+                    System.out.println("Invalid unit. Route value will be displayed in default units.");
+                    System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " km");
+                }
             }
 
             // Get the points between start and end
             List<Point> pointsBetween = cal.getPointsBetween(starts, ends);
             if (!pointsBetween.isEmpty()) {
-                System.out.println("Points between (" + startXC + ", " + startYC + ") and (" + endXC + ", " + endYC + "):");
+                System.out.println("Points between (" + startXC + ") and (" + endYC + "):");
                 for (Point point : pointsBetween) {
                     System.out.println(point);
                 }
@@ -194,7 +181,7 @@ public class App {
             // Get the route history
             List<Route> routeHistory = cal.getRouteHistory(starts, ends);
             if (!routeHistory.isEmpty()) {
-                System.out.println("Route history from (" + startXC + ", " + startYC + ") to (" + endXC + ", " + endYC + "):");
+                System.out.println("Route history from (" + startXC + ") to ( " + endYC + "):");
                 for (Route rout : routeHistory) {
                     System.out.println(rout);
                 }
@@ -204,68 +191,7 @@ public class App {
         scan.close();
 
 
-       
 
-        int id = 5; // change ID number to test
-
-        Point point = pointService.getPoint(id);
-        if (point != null) {
-            pointService.delete(point);
-            logger.info("Deleted point with ID #" + id);
-        } else
-            logger.info("Point with ID #" + id + " does not exist in database");
-
-
-//        SqlSession session = MyBatisSession.getSqlSession();
-//        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
-//        Route route1 = routeMapper.getRoute(1);
-//
-//
-//
-//        Point point1 = pointService.create(allPoints.get(0));
-//        logger.info("A new point has been added into the database: " + point1);
-//
-//        RouteService routeService = new RouteService();
-//        Route route2 = new Route(allPoints.get(0), allPoints.get(1), 100500);
-//        routeService.create(route1);
-//        logger.info("A new route without waypoints has been added into the database: " + route1);
-//
-//        List<Point> wayPoints = new ArrayList<>();
-//        wayPoints.add(allPoints.get(3));
-//        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
-//        routeService.create(route2);
-//        logger.info("A new route with waypoints has been added into the database: " + route2);
-
-        SqlSession session = MyBatisSession.getSqlSession();
-        RouteDAO routeMapper = session.getMapper(RouteDAO.class);
-        Route route1 = routeMapper.getRoute(1);
-
-
-
-        Point point1 = pointService.create(allPoints.get(0));
-        logger.info("A new point has been added into the database: " + point1);
-
-        **/
-
-//        RouteService routeService = new RouteService();
-//        Route route2 = new Route(pointService.getPoint(1), pointService.getPoint(2), 100500);
-//        routeService.create(route2);
-//        logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route2.getId()));
-//
-//        List<Point> wayPoints = new ArrayList<>();
-//
-//        wayPoints.add(allPoints.get(3));
-//        Route route3 = new Route(allPoints.get(4), allPoints.get(5), 500100, wayPoints);
-//        routeService.create(route2);
-//        logger.info("A new route with waypoints has been added into the database: " + route2);
-//
-//
-//
-//        wayPoints.add(pointService.getPoint(3));
-//        wayPoints.add(pointService.getPoint(4));
-//        Route route3 = new Route(pointService.getPoint(6), pointService.getPoint(8), 500100, wayPoints);
-//        routeService.create(route3);
-//        logger.info("A new route without waypoints has been added into the database: " + routeService.getRoute(route3.getId()));
 
     }
 
