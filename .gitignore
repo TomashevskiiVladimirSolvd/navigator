@@ -97,3 +97,6 @@ hs_err_pid*
 *.MF
 *.bat
 *.png
+
+.idea/inspectionProfiles
+
