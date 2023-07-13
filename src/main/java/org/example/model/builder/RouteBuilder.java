@@ -13,7 +13,7 @@ public class RouteBuilder {
     private long distance;
     private List<Point> wayPoints;
 
-    public RouteBuilder(){
+    public RouteBuilder() {
 
     }
 
@@ -42,6 +42,6 @@ public class RouteBuilder {
     }
 
     public Route getRoute() {
-        return new Route(startPoint, endPoint, distance, wayPoints);
+        return new Route(startPoint, endPoint, distance);
     }
 }
