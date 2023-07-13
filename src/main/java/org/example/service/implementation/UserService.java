@@ -1,11 +1,14 @@
 package org.example.service.implementation;
 
+
+import java.util.List;
+
 import org.example.dao.implementation.UserMapperImpl;
 import org.example.dao.interfaces.UserDAO;
 import org.example.model.User;
 import org.example.service.interfaces.IUserService;
 
-import java.util.List;
+
 
 public class UserService implements IUserService {
     private final UserDAO userDAO;

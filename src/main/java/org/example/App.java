@@ -1,15 +1,17 @@
 package org.example;
 
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import org.example.model.Route;
-import org.example.model.Point;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.model.Route;
+import org.example.model.Point;
 
 import org.example.model.User;
+
 import org.example.service.implementation.PointService;
 import org.example.service.implementation.RouteService;
 
@@ -28,25 +30,24 @@ public class App {
         PointService pointService = new PointService();
         RouteService routeService = new RouteService();
 
+
+        List<Route> allRoutes = routeService.getRoutes();
+        logger.info("*** ROUTES IN DATABASE ***");
+        for (Route rou : allRoutes)
+            logger.info(rou);
+
+
         List<Point> allPoints = pointService.getPoints();
         System.out.println("\n✦✦✦ LIST OF CITIES ✦✦✦");
         for (Point point : allPoints)
             System.out.println("[ " + point.getId() + " ] " + point.getCityName());
 
 
-        List<Route> route = new ArrayList<>();
-        route.add(new Route(allPoints.get(0), allPoints.get(1), 3));
-        route.add(new Route(allPoints.get(1), allPoints.get(2), 4));
-        route.add(new Route(allPoints.get(2), allPoints.get(3), 5));
-
-
-        System.out.println(allPoints.get(0));
-        System.out.println(allPoints.get(1));
-        System.out.println(allPoints.get(2));
-        System.out.println(allPoints.get(3));
 
 
         Scanner scan = new Scanner(System.in);
+
+        List<String> calculationHistory = new ArrayList<>();
 
         // Start the program loop
         boolean exit = false;
@@ -89,7 +90,7 @@ public class App {
             }
 
             // Create the calculator instance
-            ShortestPathCalculator cal = new ShortestPathCalculator(allPoints, route);
+            ShortestPathCalculator cal = new ShortestPathCalculator(allPoints, allRoutes);
 
             // Calculate the shortest path
             long shortestP = cal.calculateShortestPath(starts, ends);
@@ -103,8 +104,12 @@ public class App {
                 if (unit.equalsIgnoreCase("miles")) {
                     shortestP = cal.kilometersToMiles(shortestP);
                     System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " miles");
+                    String calculationResult = "Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " miles";
+                    calculationHistory.add(calculationResult);
                 } else if (unit.equalsIgnoreCase("km")) {
                     System.out.println("Shortest path from (" + startXC + ") to ( " + endYC + ") is " + shortestP + " km");
+                    String calculationResult = "Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " km";
+                    calculationHistory.add(calculationResult);
                 } else {
                     System.out.println("Invalid unit. Route value will be displayed in default units.");
                     System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " km");
@@ -120,10 +125,10 @@ public class App {
                 }
             }
 
-            // Get the route history
+            // Get the route itinerary
             List<Route> routeHistory = cal.getRouteHistory(starts, ends);
             if (!routeHistory.isEmpty()) {
-                System.out.println("Route history from (" + startXC + ") to ( " + endYC + "):");
+                System.out.println("Route itinerary from (" + startXC + ") to ( " + endYC + "):");
                 for (Route rout : routeHistory) {
                     System.out.println(rout);
                 }
@@ -131,5 +136,14 @@ public class App {
         }
 
         scan.close();
+
+        System.out.println("\nCalculation History:");
+        for (String calculation : calculationHistory) {
+            System.out.println(calculation);
+        }
+
+        System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨\nIf you would like to use the app again, please make a selection from the main menu.");
+
+
     }
 }
