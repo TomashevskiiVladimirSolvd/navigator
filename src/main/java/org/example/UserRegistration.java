@@ -23,6 +23,7 @@ public class UserRegistration {
             System.out.println("\n✦✦✦ MAIN MENU ✦✦✦");
             System.out.println("[ 1 ] Sign up");
             System.out.println("[ 2 ] Log in");
+            System.out.println("[ 3 ] Exit");
             System.out.print("Enter a selection: ");
             String input = scanner.nextLine();
 
@@ -63,7 +64,7 @@ public class UserRegistration {
                             User newUser = new UserBuilder().setName(firstName).setSurname(lastName).setEmail(email).setPassword(pass1).getUser();
                             userService.create(newUser);
                             System.out.println("\nWelcome, " + firstName + "!");
-                            System.out.println("Your account has been created. Thank you for using Navigator!");
+                            System.out.println("Your account has been created. Thank you for using Navigator!\n");
                             running = false;
                             match = true;
                         }
@@ -82,7 +83,7 @@ public class UserRegistration {
                                 pass1 = containsWhitespace(scanner.nextLine());
                                 pass2 = user.getPassword();
                                 if (pass1.equals(pass2)) {
-                                    System.out.print("\nWelcome back, " + user.getName() + "!\n");
+                                    System.out.println("\nWelcome back, " + user.getName() + "!\n");
                                     match = true;
                                     login = true;
                                     running = false;
@@ -108,11 +109,16 @@ public class UserRegistration {
                         }
                     }
                     break;
+                case "3":
+                    System.out.println("\n*** Thank you for using Navigator, goodbye! ***");
+                    System.exit(0);
+                    break;
                 default :
                     System.out.println("\n*** Sorry, that is not a valid option. Please sign up or log in if you already have an account. ***\n");
                     break;
             }
         }
+        scanner.close();
         return user;
     }
 

@@ -42,6 +42,6 @@ public class RouteBuilder {
     }
 
     public Route getRoute() {
-        return new Route(startPoint, endPoint, distance, wayPoints);
+        return new Route(startPoint, endPoint, distance);
     }
 }

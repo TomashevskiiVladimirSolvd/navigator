@@ -1,5 +1,4 @@
 package org.example.model;
-import org.example.model.builder.RouteBuilder;
 
 import java.util.List;
 
@@ -14,11 +13,10 @@ public class Route {
     public Route() {
     }
 
-    public Route(Point startPoint, Point endPoint, long distance, List<Point> wayPoints) {
+    public Route(Point startPoint, Point endPoint, long distance) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.distance = distance;
-        this.wayPoints = wayPoints;
     }
 
     public Integer getId() {
