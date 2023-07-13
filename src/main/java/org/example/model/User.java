@@ -1,9 +1,8 @@
 package org.example.model;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.model.Observer.DesiredPath;
+import org.example.model.observer.DesiredPath;
 
 import java.util.Objects;
 
@@ -13,15 +12,17 @@ public class User {
     private String name;
     private String surname;
     private String email;
+    private String password;
     private DesiredPath desiredPath;
 
     public User(){
 
     }
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, String email, String password) {
         this.name=name;
         this.surname=surname;
         this.email=email;
+        this.password=password;
     }
 
     public Integer getId() {
@@ -56,17 +57,25 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(email, user.email);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(desiredPath, user.desiredPath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, email);
+        return Objects.hash(id, name, surname, email, password, desiredPath);
     }
 
     @Override
@@ -76,6 +85,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", desiredPath=" + desiredPath +
                 '}';
     }
 
