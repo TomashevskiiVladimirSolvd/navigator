@@ -19,12 +19,6 @@ public class Route {
         this.distance = distance;
     }
 
-    public Route(Point startPoint, Point endPoint, long distance) {
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
-        this.distance = distance;
-    }
-
     public Integer getId() {
         return id;
     }
