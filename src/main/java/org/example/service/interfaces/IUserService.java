@@ -1,3 +1,7 @@
+package org.example.service.interfaces;
+
+import org.example.model.User;
+
 import java.util.List;
 
 public interface IUserService {
