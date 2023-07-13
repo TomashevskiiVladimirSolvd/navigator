@@ -44,7 +44,20 @@ public class UserMapperImpl implements UserDAO {
         sqlSession = MyBatisSession.getSqlSession();
         User user;
         try {
-            user = sqlSession.selectOne("getUser", id);
+            user = sqlSession.selectOne("getUserById", id);
+            sqlSession.commit();
+        } finally {
+            sqlSession.close();
+        }
+        return user;
+    }
+
+    @Override
+    public User getUser(String email) {
+        sqlSession = MyBatisSession.getSqlSession();
+        User user;
+        try {
+            user = sqlSession.selectOne("getUserByEmail", email);
             sqlSession.commit();
         } finally {
             sqlSession.close();
