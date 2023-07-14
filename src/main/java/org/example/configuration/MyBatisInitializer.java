@@ -12,32 +12,29 @@ import java.io.Reader;
 import java.util.Properties;
 
 public class MyBatisInitializer {
-  private static final Logger logger = LogManager.getLogger("MyBatisInitializer");
-  private static SqlSessionFactory sqlSessionFactory;
-  private static final String configFile = "src/main/resources/config.properties";
-  private static final String myBatisFile = "mybatis-config.xml";
+    private static final Logger logger = LogManager.getLogger("MyBatisInitializer");
+    private static SqlSessionFactory sqlSessionFactory;
+    private static final String configFile = "src/main/resources/config.properties";
+    private static final String myBatisFile = "mybatis-config.xml";
 
-  static {
-    initialize();
-  }
-
-  public static void initialize() {
-
-
-    Properties properties = new Properties();
-    try (FileInputStream fis = new FileInputStream(configFile)) {
-      properties.load(fis);
-      Reader reader = Resources.getResourceAsReader(myBatisFile);
-      sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, properties);
-
-    } catch (IOException e) {
-      //logger.error("An error occurred while initializing MyBatis:", e);
+    static {
+        initialize();
     }
 
+    public static void initialize() {
+        Properties properties = new Properties();
+        try (FileInputStream fis = new FileInputStream(configFile)) {
+            properties.load(fis);
+            Reader reader = Resources.getResourceAsReader(myBatisFile);
+            sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, properties);
+            logger.debug("MyBatis has been initialized");
+        } catch (IOException e) {
+            logger.error("An error occurred while initializing MyBatis:", e);
+        }
+    }
 
-  }
-
-  public static SqlSessionFactory getSqlSessionFactory() {
-    return sqlSessionFactory;
-  }
+    public static SqlSessionFactory getSqlSessionFactory() {
+        logger.debug("sqlSessionFactory has been returned");
+        return sqlSessionFactory;
+    }
 }

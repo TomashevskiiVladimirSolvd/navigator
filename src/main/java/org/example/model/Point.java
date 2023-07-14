@@ -1,11 +1,15 @@
 package org.example.model;
 
 import java.util.Objects;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.model.builder.PointBuilder;
 
 import java.util.Objects;
 
 public class Point {
+  private static final Logger logger = LogManager.getLogger("Point");
 
   private Integer id;
   private double xCoordinate;
@@ -26,34 +30,42 @@ public class Point {
 
 
   public Integer getId() {
+    logger.debug("The point id has been retrieved.");
     return id;
   }
 
   public void setId(Integer id) {
+    logger.debug("The point id has been set.");
     this.id = id;
   }
 
   public double getXCoordinate() {
+    logger.debug("The X coordinate has been retrieved.");
     return xCoordinate;
   }
 
   public void setXCoordinate(double xCoordinate) {
+    logger.debug("The X coordinate has been set.");
     this.xCoordinate = xCoordinate;
   }
 
   public double getYCoordinate() {
+    logger.debug("The Y coordinate has been retrieved.");
     return yCoordinate;
   }
 
   public void setYCoordinate(double yCoordinate) {
+    logger.debug("The Y coordinate has been set.");
     this.yCoordinate = yCoordinate;
   }
 
   public String getCityName() {
+    logger.debug("The city name has been retrieved.");
     return cityName;
   }
 
   public void setCityName(String cityName) {
+    logger.debug("The city name has been set.");
     this.cityName = cityName;
   }
 
