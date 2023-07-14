@@ -69,11 +69,25 @@ public class RouteMapperImpl implements RouteDAO {
     }
 
     @Override
-    public void setWayPoints(Route route, Point wayPoint) {
+    public List<Point> getWayPoints(int id) {
+        sqlSession = MyBatisSession.getSqlSession();
+        List<Point> wayPoints;
+        try {
+            RouteDAO routeDAO = sqlSession.getMapper(RouteDAO.class);
+            wayPoints = routeDAO.getWayPoints(id);
+            sqlSession.commit();
+        } finally {
+            sqlSession.close();
+        }
+        return wayPoints;
+    }
+
+    @Override
+    public void setWayPoints(Route route, Point wayPoint, int order) {
         sqlSession = MyBatisSession.getSqlSession();
         try {
             RouteDAO routeDAO = sqlSession.getMapper(RouteDAO.class);
-            routeDAO.setWayPoints(route, wayPoint);
+            routeDAO.setWayPoints(route, wayPoint, order);
             sqlSession.commit();
         } finally {
             sqlSession.close();
