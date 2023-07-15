@@ -53,6 +53,10 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+
+        List<Point> wayPoints = getWayPoints(id);
+        route.setWayPoints(wayPoints);
+
         logger.debug("A route has been retrieved using SELECT r.id, r.start_point, r.end_point, r.distance FROM routes r WHERE r.id = #{id}");
         return route;
     }
@@ -67,16 +71,36 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+
+        for (Route route : routes) {
+            List<Point> wayPoints = getWayPoints(route.getId());
+            route.setWayPoints(wayPoints);
+        }
+
         logger.debug("A list of routes has retrieved using SELECT r.id, r.start_point, r.end_point, r.distance FROM routes r");
         return routes;
     }
 
     @Override
-    public void setWayPoints(Route route, Point wayPoint) {
+    public List<Point> getWayPoints(int id) {
+        sqlSession = MyBatisSession.getSqlSession();
+        List<Point> wayPoints;
+        try {
+            RouteDAO routeDAO = sqlSession.getMapper(RouteDAO.class);
+            wayPoints = routeDAO.getWayPoints(id);
+            sqlSession.commit();
+        } finally {
+            sqlSession.close();
+        }
+        return wayPoints;
+    }
+
+    @Override
+    public void setWayPoints(Route route, Point wayPoint, int order) {
         sqlSession = MyBatisSession.getSqlSession();
         try {
             RouteDAO routeDAO = sqlSession.getMapper(RouteDAO.class);
-            routeDAO.setWayPoints(route, wayPoint);
+            routeDAO.setWayPoints(route, wayPoint, order);
             sqlSession.commit();
         } finally {
             sqlSession.close();

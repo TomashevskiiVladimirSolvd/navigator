@@ -50,6 +50,8 @@ public class RouteBuilder {
     }
 
     public Route getRoute() {
-        return new Route(startPoint, endPoint, distance);
+        Route route = new Route(startPoint, endPoint, distance);
+        route.setWayPoints(wayPoints);
+        return route;
     }
 }

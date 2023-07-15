@@ -112,6 +112,7 @@ public class Route {
                 ", startPoint=" + startPoint +
                 ", endPoint=" + endPoint +
                 ", distance=" + distance +
+                ", waypoints=" + wayPoints +
                 '}';
     }
 }

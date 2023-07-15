@@ -29,21 +29,18 @@ public class RouteService implements IRouteService {
         routeDAO.insertRoute(route);
 
         if (route.getStartPoint() != null) {
-            Point startPoint = pointService.create(route.getStartPoint());
-            routeDAO.setStartPoint(startPoint, route);
+            routeDAO.setStartPoint(route.getStartPoint(), route);
         }
 
         if (route.getEndPoint() != null) {
-            Point endPoint = pointService.create(route.getEndPoint());
-            routeDAO.setEndPoint(endPoint, route);
+            routeDAO.setEndPoint(route.getEndPoint(), route);
         }
 
         if (route.getWayPoints() != null) {
-            List<Point> wayPoints = route.getWayPoints().stream()
-                    .map(pointService::create)
-                    .collect(Collectors.toList());
+            List<Point> wayPoints = route.getWayPoints();
+            int order = 0;
             for (Point wayPoint : wayPoints) {
-                routeDAO.setWayPoints(route, wayPoint);
+                routeDAO.setWayPoints(route, wayPoint, ++order);
             }
         }
         logger.debug("A new route has been created.");
@@ -65,4 +62,7 @@ public class RouteService implements IRouteService {
         return routeDAO.getRoutes();
     }
 
+    public List<Point> getWayPoints(int id) {
+        return routeDAO.getWayPoints(id);
+    }
 }
