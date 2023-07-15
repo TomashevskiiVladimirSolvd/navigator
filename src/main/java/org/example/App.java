@@ -6,12 +6,8 @@ import java.util.Scanner;
 
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.model.Route;
 import org.example.model.Point;
-
-import org.example.model.User;
 
 import org.example.service.implementation.PointService;
 import org.example.service.implementation.RouteService;
@@ -19,11 +15,9 @@ import org.example.service.implementation.RouteService;
 import java.util.List;
 
 public class App {
-    private static final Logger logger = LogManager.getLogger("APP");
+    public static void main(String[] args) {
 
-    public static void main( String[] args ) {
-
-        System.out.println("✦✦✦ WELCOME TO NAVIGATOR ✦✦✦");
+        System.out.println("\n✦✦✦ WELCOME TO NAVIGATOR ✦✦✦");
         System.out.println("If you are a new user, sign up!");
         System.out.println("If you are a returning user, please log in.");
 
@@ -43,8 +37,6 @@ public class App {
         System.out.println("\n✦✦✦ LIST OF CITIES ✦✦✦");
         for (Point point : allPoints)
             System.out.println("[ " + point.getId() + " ] " + point.getCityName());
-
-
 
 
         Scanner scan = new Scanner(System.in);
@@ -107,7 +99,7 @@ public class App {
 
             // Find the start and end points
             for (Point point : allPoints) {
-                if (point.getId() == startXC ) {
+                if (point.getId() == startXC) {
                     starts = point;
                 }
                 if (point.getId() == endYC) {
@@ -128,23 +120,23 @@ public class App {
             long shortestP = cal.calculateShortestPath(starts, ends);
 
             if (shortestP == -1) {
-                System.out.println("No path found from (" + startXC +  ") to ( " + endYC + ")");
+                System.out.println("No path found from (" + startXC + ") to (" + endYC + ")");
             } else {
                 System.out.print("Enter the desired unit (miles or km): ");
                 String unit = scan.next();
 
                 if (unit.equalsIgnoreCase("miles")) {
                     shortestP = cal.kilometersToMiles(shortestP);
-                    System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " miles");
+                    System.out.println("Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " miles");
                     String calculationResult = "Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " miles";
                     calculationHistory.add(calculationResult);
                 } else if (unit.equalsIgnoreCase("km")) {
-                    System.out.println("Shortest path from (" + startXC + ") to ( " + endYC + ") is " + shortestP + " km");
+                    System.out.println("Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " km");
                     String calculationResult = "Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " km";
                     calculationHistory.add(calculationResult);
                 } else {
                     System.out.println("Invalid unit. Route value will be displayed in default units.");
-                    System.out.println("Shortest path from (" + startXC +  ") to ( " + endYC + ") is " + shortestP + " km");
+                    System.out.println("Shortest path from (" + startXC + ") to (" + endYC + ") is " + shortestP + " km");
                 }
             }
 
@@ -169,7 +161,7 @@ public class App {
             // Get the route itinerary
             List<Route> routeHistory = cal.getRouteHistory(starts, ends);
             if (!routeHistory.isEmpty()) {
-                System.out.println("Route itinerary from (" + startXC + ") to ( " + endYC + "):");
+                System.out.println("Route itinerary from (" + startXC + ") to (" + endYC + "):");
                 for (Route rout : routeHistory) {
                     System.out.println(rout);
                 }
@@ -184,7 +176,6 @@ public class App {
         }
 
         System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨\nIf you would like to use the app again, please make a selection from the main menu.");
-
 
     }
 }

@@ -1,10 +1,9 @@
 package org.example.dao.implementation;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.configuration.MyBatisSession;
 import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Point;
@@ -14,7 +13,7 @@ import java.util.List;
 
 
 public class RouteMapperImpl implements RouteDAO {
-    //private static final Logger logger = LogManager.getLogger("RouteMapperImpl");
+    private static final Logger logger = LogManager.getLogger("RouteMapperImpl");
     private SqlSession sqlSession;
 
     public RouteMapperImpl() {
@@ -29,6 +28,7 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A route has been created using INSERT INTO routes (start_point, end_point, distance) VALUES (#{startPoint.id}, #{endPoint.id}, #{distance})");
     }
 
     @Override
@@ -40,6 +40,7 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A route has been updated using UPDATE routes SET distance = #{distance} WHERE id = #{id}");
     }
 
     @Override
@@ -52,6 +53,7 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A route has been retrieved using SELECT r.id, r.start_point, r.end_point, r.distance FROM routes r WHERE r.id = #{id}");
         return route;
     }
 
@@ -65,6 +67,7 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A list of routes has retrieved using SELECT r.id, r.start_point, r.end_point, r.distance FROM routes r");
         return routes;
     }
 
@@ -78,6 +81,7 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("Waypoints have been set using INSERT INTO waypoints (points_id, routes_id) VALUES (#{point.id}, #{route.id})");
     }
 
     @Override
@@ -90,6 +94,7 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("An endpoint has been set using UPDATE routes SET end_point = #{endPoint.id} WHERE id = #{route.id}");
     }
 
     @Override
@@ -102,5 +107,7 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("An start point has been set using UPDATE routes SET start_point = #{startPoint.id} WHERE id = #{route.id}");
     }
+
 }

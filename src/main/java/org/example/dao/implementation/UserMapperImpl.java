@@ -26,6 +26,7 @@ public class UserMapperImpl implements UserDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A user has been created using INSERT INTO users (name, surname, email, password) VALUES (#{name}, #{surname}, #{email}, #{password});");
     }
 
     @Override
@@ -37,6 +38,7 @@ public class UserMapperImpl implements UserDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A user has been updated using UPDATE users SET name = #{name}, surname = #{surname}, email = #{email}, password = #{password} WHERE id = #{id};");
     }
 
     @Override
@@ -49,6 +51,7 @@ public class UserMapperImpl implements UserDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A user has been retrieved by id using SELECT id, name, surname, email, password FROM users WHERE id = #{id};");
         return user;
     }
 
@@ -62,6 +65,7 @@ public class UserMapperImpl implements UserDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A user has been retrieved by email using SELECT id, name, surname, email, password FROM users WHERE email = #{email};");
         return user;
     }
 
@@ -75,6 +79,8 @@ public class UserMapperImpl implements UserDAO {
         } finally {
             sqlSession.close();
         }
+        logger.debug("A list of users has been retrieved using SELECT id, name, surname, email, password FROM users;");
         return users;
     }
+
 }

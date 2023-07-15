@@ -1,5 +1,7 @@
 package org.example.service.implementation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.dao.implementation.RouteMapperImpl;
 import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Point;
@@ -11,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RouteService implements IRouteService {
+    private static final Logger logger = LogManager.getLogger("RouteService");
     private final RouteDAO routeDAO;
     private final IPointService pointService;
 
@@ -42,19 +45,22 @@ public class RouteService implements IRouteService {
                 routeDAO.setWayPoints(route, wayPoint);
             }
         }
-
+        logger.debug("A new route has been created.");
         return route;
     }
 
     public void update(Route route) {
         routeDAO.updateRoute(route);
+        logger.debug("A route has been updated.");
     }
 
     public Route getRoute(int id) {
+        logger.debug("A route has been retrieved.");
         return routeDAO.getRoute(id);
     }
 
     public List<Route> getRoutes() {
+        logger.debug("A list of routes has been retrieved.");
         return routeDAO.getRoutes();
     }
 

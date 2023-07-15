@@ -1,8 +1,12 @@
 package org.example.model;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.List;
 
 public class Route {
+    private static final Logger logger = LogManager.getLogger("Route");
     private Integer id;
     private Point startPoint;
     private Point endPoint;
@@ -20,50 +24,59 @@ public class Route {
     }
 
     public Route(Point startPoint, Point endPoint, long distance, List<Point> wayPoints) {
-
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.distance = distance;
     }
 
     public Integer getId() {
+        logger.debug("The route id has been retrieved.");
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+        logger.debug("The route id has been set.");
     }
 
     public Point getStartPoint() {
+        logger.debug("The start point has been retrieved.");
         return startPoint;
     }
 
     public void setStartPoint(Point startPoint) {
+        logger.debug("The start point has been set.");
         this.startPoint = startPoint;
     }
 
     public Point getEndPoint() {
+        logger.debug("The end point has been retrieved.");
         return endPoint;
     }
 
     public void setEndPoint(Point endPoint) {
         this.endPoint = endPoint;
+        logger.debug("The end point has been set.");
     }
 
     public long getDistance() {
+        logger.debug("The distance has been retrieved.");
         return distance;
     }
 
     public void setDistance(long distance) {
+        logger.debug("The distance has been set.");
         this.distance = distance;
     }
 
     public List<Point> getWayPoints() {
+        logger.debug("The list of waypoints has been retrieved.");
         return wayPoints;
     }
 
     public void setWayPoints(List<Point> wayPoints) {
         this.wayPoints = wayPoints;
+        logger.debug("The list of waypoints has been set.");
     }
 
     @Override
@@ -99,7 +112,6 @@ public class Route {
                 ", startPoint=" + startPoint +
                 ", endPoint=" + endPoint +
                 ", distance=" + distance +
-                ", wayPoints=" + wayPoints +
                 '}';
     }
 }

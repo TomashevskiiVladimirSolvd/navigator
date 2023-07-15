@@ -4,7 +4,11 @@
 <mapper namespace="org.example.dao.interfaces.RouteDAO">
 
     <insert id="insertRoute" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+<<<<<<< HEAD
         INSERT INTO routes (distance) VALUES (#{distance})
+=======
+        INSERT INTO routes (start_point, end_point, distance) VALUES (#{startPoint.id}, #{endPoint.id}, #{distance})
+>>>>>>> main
     </insert>
 
     <update id="updateRoute">
