@@ -24,4 +24,5 @@
         <result property="yCoordinate" column="y_coordinate"/>
         <result property="cityName" column="city_name"/>
     </resultMap>
+
 </mapper>
