@@ -52,6 +52,10 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+
+        List<Point> wayPoints = getWayPoints(id);
+        route.setWayPoints(wayPoints);
+
         return route;
     }
 
@@ -65,6 +69,12 @@ public class RouteMapperImpl implements RouteDAO {
         } finally {
             sqlSession.close();
         }
+
+        for (Route route : routes) {
+            List<Point> wayPoints = getWayPoints(route.getId());
+            route.setWayPoints(wayPoints);
+        }
+
         return routes;
     }
 

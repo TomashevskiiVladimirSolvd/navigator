@@ -26,7 +26,7 @@ public class App {
         System.out.println("If you are a new user, sign up!");
         System.out.println("If you are a returning user, please log in.");
 
-        //UserRegistration.start(); // returns the current user of the program after registration
+        UserRegistration.start(); // returns the current user of the program after registration
         // add other app implementation below here
         // if you want to receive information about the user, use the user object above
         System.out.println("Where would you like to go?");
@@ -139,7 +139,7 @@ public class App {
             boolean routeExists = false;
             for (Route route : allRoutes) {
                 if (route.getStartPoint().equals(starts) && route.getEndPoint().equals(ends)) {
-                    route.setWayPoints(routeService.getWayPoints(route.getId()));
+                    System.out.println(route);
 
                     System.out.println("\nRetrieving shortest route...\n");
 
@@ -209,6 +209,8 @@ public class App {
                         .setWayPoints(pointsBetween).getRoute();
 
                 routeService.create(route);
+
+                System.out.println(route);
 
                 System.out.println("Points between (" + starts.getId() + ") and (" + ends.getId() + "):");
                 System.out.print("(" + starts.getCityName() + ") ---> ");
