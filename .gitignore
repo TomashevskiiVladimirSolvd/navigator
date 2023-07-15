@@ -82,6 +82,7 @@ hs_err_pid*
 /*.iws
 
 #Maven
+/.target
 !/target
 !/AirTravel
 

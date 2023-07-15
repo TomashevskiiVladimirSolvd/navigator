@@ -1,6 +1,5 @@
 package org.example.service.implementation;
 
-import org.example.model.builder.RouteBuilder;
 import org.example.dao.implementation.RouteMapperImpl;
 import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Point;

@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -19,13 +20,34 @@ public class ShortestPathCalculator {
   }
 
   public long calculateShortestPath(Point start, Point end) {
+    // Find the start and end points by ID
+    Point starts = points.stream()
+        .filter(p -> p.getId().equals(start.getId()))
+        .findFirst()
+        .orElse(null);
+    Point ends = points.stream()
+        .filter(p -> p.getId().equals(end.getId()))
+        .findFirst()
+        .orElse(null);
+
+    if (starts == null || ends == null) {
+      System.out.println("Invalid start or end point ID.");
+      return -1;
+    }
+
+
+    if (starts == null || ends == null) {
+      System.out.println("Invalid start or end point ID.");
+      return -1;
+    }
+
     Map<Point, Long> distances = new HashMap<>();
     Map<Point, Point> previousPoints = new HashMap<>();
     PriorityQueue<PointEntry> queue = new PriorityQueue<PointEntry>(Comparator.comparingLong(pe -> pe.distance));
 
     // Initialize distances
     for (Point point : points) {
-      if (point.equals(start)) {
+      if (point.equals(starts)) {
         distances.put(point, 0L);
       } else {
         distances.put(point, Long.MAX_VALUE);
@@ -69,7 +91,7 @@ public class ShortestPathCalculator {
   public List<Point> getPointsBetween(Point start, Point end) {
     List<Point> pointsBetween = new ArrayList<>();
 
-    Point currentPoint = start;
+    Point currentPoint = getNextPoint(start);
     while (!currentPoint.equals(end)) {
       pointsBetween.add(currentPoint);
       currentPoint = getNextPoint(currentPoint);
@@ -91,4 +113,31 @@ public class ShortestPathCalculator {
     return null;
   }
 
+  public List<Route> getRouteHistory(Point start, Point end) {
+    List<Route> routeHistory = new ArrayList<>();
+    List<Point> pointsBetween = getPointsBetween(start, end);
+
+    for (int i = 0; i < pointsBetween.size() - 1; i++) {
+      Point startPoint = pointsBetween.get(i);
+      Point endPoint = pointsBetween.get(i + 1);
+
+      for (Route route : routes) {
+        if (route.getStartPoint().equals(startPoint) && route.getEndPoint().equals(endPoint)) {
+          routeHistory.add(route);
+          break;
+        }
+      }
+    }
+
+    return routeHistory;
+  }
+
+
+  public static long kilometersToMiles(long kilometers) {
+    return (long) (kilometers * 0.621371);
+  }
+
+
 }
+
+
