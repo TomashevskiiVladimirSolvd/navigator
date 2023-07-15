@@ -199,8 +199,8 @@ public class App {
                     }
                 }
 
-                Route route = routeBuilder.setStartPoint(pointService.getPoint(startXC))
-                        .setEndPoint(pointService.getPoint(endYC))
+                Route route = routeBuilder.setStartPoint(starts)
+                        .setEndPoint(ends)
                         .setDistance(shortestP)
                         .setWayPoints(pointsBetween).getRoute();
 
