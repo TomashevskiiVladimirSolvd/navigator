@@ -2,10 +2,20 @@ package org.example;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Random;
 import java.util.Scanner;
 
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import javax.swing.ListCellRenderer;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.configuration.MyBatisSession;
+import org.example.dao.interfaces.RouteDAO;
 import org.example.model.Route;
 import org.example.model.Point;
 
@@ -30,6 +40,11 @@ public class App {
         System.out.println("\n*** Thank you for waiting while the app is loading ***");
 
         List<Route> allRoutes = routeService.getRoutes();
+
+        logger.info("*** ROUTES IN DATABASE ***");
+        for (Route rou : allRoutes)
+            logger.info(rou);
+
         List<Point> allPoints = pointService.getPoints();
 
         if (allPoints.isEmpty()) {
@@ -38,6 +53,85 @@ public class App {
             allPoints = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(
                     Collectors.toList());
         }
+
+
+
+
+        //random points would be generated into the database
+        RandomPointsGenerator r = new RandomPointsGenerator();
+
+        List<Point> ppp = Stream.generate(() -> pointService.create(r.createRandomPoint())). limit(r.getNumPoints()).collect(
+            Collectors.toList());
+
+        List<Point> randomPoints = r.getRandomPoints(allPoints, 5);
+        List<String> cities = new ArrayList<>();
+
+        int cityNumber = 1;
+        for (Point point : randomPoints) {
+            String city = r.generateCityName(cityNumber);
+            point.setCityName(city);
+            pointService.create(point);
+            cities.add(city);
+            cityNumber++;
+        }
+
+        logger.info("Random points");
+        for (Point p : randomPoints){
+            logger.info(p.getId());
+            logger.info(p);
+        }
+
+
+
+        Point lastEndPoint = null;
+
+        List<Route> row = new ArrayList<>();
+
+
+        randomPoints.sort(Comparator.comparingDouble(Point::getXCoordinate));
+
+        // Loop through each pair of points and calculate the distance
+        for (int i = 0; i < allPoints.size(); i++) {
+            Point p1 = allPoints.get(i);
+
+            for (int j = i + 1; j < allPoints.size(); j++) {
+                Point p2 = allPoints.get(j);
+                double distance = r.calculateDistance(p1, p2);
+                System.out.println("Distance between point " + i + " and point " + j + ": " + (long) distance);
+            }
+        }
+
+
+
+
+
+//        for (Point point : randomPoints) {
+//            if (lastEndPoint != null) {
+//                double distance = RandomPointsGenerator.calculateDistance(lastEndPoint, point);
+//                Route route = new Route(lastEndPoint, point, (long) distance);
+//                row.add(route);
+//                routeService.create(route);
+//                System.out.println(route);
+//            }
+//            lastEndPoint = point;
+//        }
+//
+//
+//        for (Route route : row) {
+//            System.out.println(route);
+//        }
+
+
+
+//        for (Route route : row) {
+            //System.out.println(route); //null id
+//            routeService.create(route);
+//            System.out.println(route); //id associated
+//        }
+
+
+
+
 
         Scanner scan = new Scanner(System.in);
 
