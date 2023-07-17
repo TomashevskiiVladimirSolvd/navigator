@@ -61,6 +61,7 @@ public class RouteService implements IRouteService {
         return routeDAO.getRoutes();
     }
 
+
     public List<Point> getWayPoints(int id) {
         return routeDAO.getWayPoints(id);
     }

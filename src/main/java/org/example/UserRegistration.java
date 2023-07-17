@@ -7,7 +7,7 @@ import org.example.service.implementation.UserService;
 
 
 public class UserRegistration {
-  public final static UserService userService = new UserService();
+  private final static UserService userService = new UserService();
   private final static int maxAttempts = 3;
   private static User user;
 

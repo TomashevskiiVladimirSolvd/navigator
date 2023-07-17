@@ -2,11 +2,13 @@ package jUnitTesting;
 
 import org.example.UserRegistration;
 import org.example.model.User;
+import org.example.service.implementation.UserService;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -20,14 +22,20 @@ public class UserRegistrationTest {
     }
 
     @Test
-    public void testStart() {
+    public void testStart() throws Exception{
 
         String simulatedUserInput = "1\nMary\nKonn\nmarykonn@gmail.com\npassword\npassword\n";
         InputStream inputStream = new ByteArrayInputStream(simulatedUserInput.getBytes());
         System.setIn(inputStream);
+
+        // Accessing the private userService field
+        Field userServiceField = UserRegistration.class.getDeclaredField("userService");
+        userServiceField.setAccessible(true);
+        UserService userService = (UserService) userServiceField.get(userRegistration);
+
         userRegistration.start();
 
-        User newUser=userRegistration.userService.getUser("marykonn@gmail.com");
+        User newUser=userService.getUser("marykonn@gmail.com");
         assertNotNull(newUser);
         assertEquals("Mary", newUser.getName());
         assertEquals("Konn", newUser.getSurname());
@@ -36,12 +44,18 @@ public class UserRegistrationTest {
     }
 
     @Test
-    public void testStartExistingUser() {
+    public void testStartExistingUser() throws Exception{
         String simulatedUserInput = "2\nangelina@gmail.com\npassword\n";
         InputStream inputStream = new ByteArrayInputStream(simulatedUserInput.getBytes());
         System.setIn(inputStream);
 
-        User existingUser=userRegistration.userService.getUser("angelina@gmail.com");
+        // Accessing the private userService field
+        Field userServiceField = UserRegistration.class.getDeclaredField("userService");
+        userServiceField.setAccessible(true);
+        UserService userService = (UserService) userServiceField.get(userRegistration);
+
+
+        User existingUser=userService.getUser("angelina@gmail.com");
         System.out.println("existing user info: "+existingUser);
         userRegistration.start();
         User returnedUser=userRegistration.getCurrentUser();
