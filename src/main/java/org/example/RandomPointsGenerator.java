@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.model.Point;
 
 import java.util.Random;
+import org.example.model.Route;
 
 public class RandomPointsGenerator {
     private static final Logger logger = LogManager.getLogger("RandomPointsGenerator");
@@ -66,16 +67,36 @@ public class RandomPointsGenerator {
         return new Point(x, y, null);
     }
 
+
+
     public static List<Point> getRandomPoints(List<Point> allPoints, int count) {
         List<Point> randomPoints = new ArrayList<>();
         Random random = new Random();
 
         int totalPoints = allPoints.size();
-        for (int i = 0; i < count; i++) {
-            int randomIndex = random.nextInt(totalPoints);
-            Point randomPoint = allPoints.get(randomIndex);
-            randomPoints.add(randomPoint);
+        if(totalPoints > 0){
+            for (int i = 0; i < count; i++) {
+                int randomIndex = random.nextInt(totalPoints);
+                Point randomPoint = allPoints.get(randomIndex);
+                randomPoints.add(randomPoint);
+            }
         }
+
+
+
+        return randomPoints;
+    }
+
+    public static double calculateDistance(Point p1, Point p2) {
+        double deltaX = p2.getXCoordinate() - p1.getXCoordinate();
+        double deltaY = p2.getYCoordinate() - p1.getYCoordinate();
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
+    public static String generateCityName(int cityNumber) {
+        return "City" + cityNumber;
+    }
+
         logger.debug("A list of random points has been created.");
         return randomPoints;
     }
