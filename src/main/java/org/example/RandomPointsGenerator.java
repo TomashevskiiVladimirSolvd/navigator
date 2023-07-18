@@ -83,4 +83,10 @@ public class RandomPointsGenerator {
 
         return randomPoints;
     }
+
+    public static double calculateDistance(Point p1, Point p2) {
+        double deltaX = p2.getXCoordinate() - p1.getXCoordinate();
+        double deltaY = p2.getYCoordinate() - p1.getYCoordinate();
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
 }
