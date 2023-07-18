@@ -7,9 +7,6 @@
         INSERT INTO routes (start_point, end_point, distance) VALUES (#{startPoint.id}, #{endPoint.id}, #{distance})
     </insert>
 
-
-
-
     <update id="updateRoute">
         UPDATE routes SET distance = #{distance} WHERE id = #{id}
     </update>

@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import org.example.model.Point;
 
 import java.util.Random;
-import org.example.model.Route;
 
 public class RandomPointsGenerator {
     private static final Logger logger = LogManager.getLogger("RandomPointsGenerator");
@@ -17,8 +16,10 @@ public class RandomPointsGenerator {
     private double minY;
     private double maxY;
     private int numPoints;
+    private static int cityNumber = 1;
 
     public RandomPointsGenerator() {
+
     }
 
     public RandomPointsGenerator(double minX, double maxX, double minY, double maxY, int numPoints) {
@@ -64,17 +65,15 @@ public class RandomPointsGenerator {
         double x = minX + (maxX - minX) * random.nextDouble();
         double y = minY + (maxY - minY) * random.nextDouble();
         logger.debug("A random point has been created.");
-        return new Point(x, y, null);
+        return new Point(x, y, "City" + cityNumber++);
     }
-
-
 
     public static List<Point> getRandomPoints(List<Point> allPoints, int count) {
         List<Point> randomPoints = new ArrayList<>();
         Random random = new Random();
 
         int totalPoints = allPoints.size();
-        if(totalPoints > 0){
+        if (totalPoints > 0) {
             for (int i = 0; i < count; i++) {
                 int randomIndex = random.nextInt(totalPoints);
                 Point randomPoint = allPoints.get(randomIndex);
@@ -82,32 +81,6 @@ public class RandomPointsGenerator {
             }
         }
 
-
-
         return randomPoints;
-    }
-
-    public static double calculateDistance(Point p1, Point p2) {
-        double deltaX = p2.getXCoordinate() - p1.getXCoordinate();
-        double deltaY = p2.getYCoordinate() - p1.getYCoordinate();
-        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
-
-    public static String generateCityName(int cityNumber) {
-        return "City" + cityNumber;
-    }
-
-        logger.debug("A list of random points has been created.");
-        return randomPoints;
-    }
-
-    public static double calculateDistance(Point p1, Point p2) {
-        double deltaX = p2.getXCoordinate() - p1.getXCoordinate();
-        double deltaY = p2.getYCoordinate() - p1.getYCoordinate();
-        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
-
-    public static String generateCityName(int cityNumber) {
-        return "City" + cityNumber;
     }
 }
