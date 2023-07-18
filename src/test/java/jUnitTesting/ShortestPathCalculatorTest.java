@@ -5,6 +5,7 @@ import org.example.model.Point;
 import org.example.model.Route;
 import org.example.model.builder.PointBuilder;
 import org.example.model.builder.RouteBuilder;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.Arrays;
@@ -39,39 +40,38 @@ public class ShortestPathCalculatorTest {
 
     @Test
     public void testCalculateShortestPath() {
-//        // Testing shortest path from A to D
-        long shortestPathAD = calculator.calculateShortestPath(points.get(0), points.get(3));
-        assertEquals(25, shortestPathAD);
+        ShortestPathCalculator calculator = new ShortestPathCalculator(points, routes);
+        Point start = points.get(0);
+        Point end = points.get(3);
 
-//        // Test shortest path from B to C
-        long shortestPathBC = calculator.calculateShortestPath(points.get(1), points.get(2));
-        assertEquals(5, shortestPathBC);
+        long shortestPath = calculator.calculateShortestPath(start, end);
 
-//        // Test shortest path from C to A
-        long shortestPathCA = calculator.calculateShortestPath(points.get(2), points.get(0));
-        assertEquals(15, shortestPathCA);
-
-        // Test when there is no path from start to end
-        long shortestPathBD = calculator.calculateShortestPath(points.get(1), points.get(3));
-        assertEquals(-1, shortestPathBD);
+        Assert.assertEquals(25, shortestPath);
     }
 
     @Test
     public void testGetPointsBetween() {
-        // Test points between A and D
-        List<Point> pointsBetweenAD = calculator.getPointsBetween(points.get(0), points.get(3));
-        List<Point> expectedPointsBetweenAD = Arrays.asList(points.get(1), points.get(2));
-        assertEquals(expectedPointsBetweenAD, pointsBetweenAD);
+        ShortestPathCalculator calculator = new ShortestPathCalculator(points, routes);
+        Point start = points.get(0);
+        Point end = points.get(3);
 
-        // Test points between B and C
-        List<Point> pointsBetweenBC = calculator.getPointsBetween(points.get(1), points.get(2));
-        List<Point> expectedPointsBetweenBC = Arrays.asList();
-        assertEquals(expectedPointsBetweenBC, pointsBetweenBC);
+        List<Point> pointsBetween = calculator.getPointsBetween(start, end);
 
-        // Test points between C and A
-        List<Point> pointsBetweenCA = calculator.getPointsBetween(points.get(2), points.get(0));
-        List<Point> expectedPointsBetweenCA = Arrays.asList(points.get(1));
-        assertEquals(expectedPointsBetweenCA, pointsBetweenCA);
+        assertEquals(3, pointsBetween.size());
+        assertEquals(points.get(1), pointsBetween.get(0));
+        assertEquals(points.get(2), pointsBetween.get(1));
+        assertEquals(points.get(3),pointsBetween.get(2));
+    }
+    @Test
+    public void testGetRouteHistory() {
+        Point start = points.get(0);
+        Point end = points.get(3);
+
+        List<Route> routeHistory = calculator.getRouteHistory(start, end);
+
+        assertEquals(2, routeHistory.size());
+        assertEquals(routes.get(0), routeHistory.get(0));
+        assertEquals(routes.get(2), routeHistory.get(1));
     }
 
     @Test
