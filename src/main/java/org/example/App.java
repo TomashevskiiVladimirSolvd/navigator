@@ -33,7 +33,7 @@ public class App {
         if (allPoints.isEmpty()) {
             System.out.println("\n*** City points and routes are being generated, please wait ***");
 
-            RandomPointsGenerator pointGenerator = new RandomPointsGenerator(0, 100, 0, 100, 4);
+            RandomPointsGenerator pointGenerator = new RandomPointsGenerator(0, 100, 0, 100, 10);
             allPoints = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(Collectors.toList());
         }
 
@@ -145,27 +145,24 @@ public class App {
                             boolean routeExists = false;
                             for (Route route : allRoutes) {
                                 if (route.getStartPoint().equals(starts) && route.getEndPoint().equals(ends)) {
-                                    System.out.println(route);
-
-                                    System.out.println("\nRetrieving shortest route...\n");
-
                                     System.out.print("Enter the desired unit (miles or km): ");
                                     String unit = scan.next();
 
+                                    String calculationResult = "Shortest path from (" + route.getStartPoint().getId() + ") to (" + route.getEndPoint().getId() + ") is ";
+
                                     if (unit.equalsIgnoreCase("miles")) {
-                                        String calculationResult = "Shortest path from (" + route.getStartPoint().getId() + ") to (" + route.getEndPoint().getId() + ") is " + ShortestPathCalculator.kilometersToMiles(route.getDistance()) + " miles";
-                                        System.out.println("\n" + calculationResult);
-                                        calculationHistory.add(calculationResult);
+                                        calculationResult = calculationResult.concat(ShortestPathCalculator.kilometersToMiles(route.getDistance()) + " miles");
                                     } else if (unit.equalsIgnoreCase("km")) {
-                                        String calculationResult = "Shortest path from (" + route.getStartPoint().getId() + ") to (" + route.getEndPoint().getId() + ") is " + route.getDistance() + " km";
-                                        System.out.println("\n" + calculationResult);
-                                        calculationHistory.add(calculationResult);
+                                        calculationResult = calculationResult.concat(route.getDistance() + " km");
                                     } else {
                                         System.out.println("Invalid unit. Route value will be displayed in default units.");
-                                        String calculationResult = "Shortest path from (" + route.getStartPoint().getId() + ") to (" + route.getEndPoint().getId() + ") is " + route.getDistance() + " km";
-                                        System.out.println("\n" + calculationResult);
-                                        calculationHistory.add(calculationResult);
+                                        calculationResult = calculationResult.concat(route.getDistance() + " km");
                                     }
+
+                                    System.out.println("\nRetrieving shortest route...");
+
+                                    System.out.println("\n" + calculationResult + "\n");
+                                    calculationHistory.add(calculationResult);
 
                                     System.out.println("Points between (" + route.getStartPoint().getId() + ") and (" + route.getEndPoint().getId() + "):");
                                     System.out.print("(" + route.getStartPoint().getCityName() + ") ---> ");
@@ -173,15 +170,15 @@ public class App {
                                     for (Point point : pointsBetween) {
                                         System.out.print("(" + point.getCityName() + ") ---> ");
                                     }
-                                    System.out.print("(" + route.getEndPoint().getCityName() + ")");
-                                    System.out.println("\n");
+                                    System.out.println("(" + route.getEndPoint().getCityName() + ")");
+                                    System.out.println("\n" + route + "\n");
+
                                     routeExists = true;
                                     break;
                                 }
                             }
 
                             if (!routeExists) {
-                                System.out.println("\nCalculating shortest route...\n");
                                 RouteBuilder routeBuilder = new RouteBuilder();
                                 List<Point> pointsBetween = cal.getPointsBetween(starts, ends);
 
@@ -193,20 +190,21 @@ public class App {
                                     System.out.print("Enter the desired unit (miles or km): ");
                                     String unit = scan.next();
 
+                                    System.out.println("\nCalculating shortest route...");
+
+                                    String calculationResult = "Shortest path from (" + starts.getId() + ") to (" + ends.getId() + ") is ";
+
                                     if (unit.equalsIgnoreCase("miles")) {
-                                        String calculationResult = "Shortest path from (" + starts.getId() + ") to (" + ends.getId() + ") is " + ShortestPathCalculator.kilometersToMiles(shortestP) + " miles";
-                                        System.out.println("\n" + calculationResult);
-                                        calculationHistory.add(calculationResult);
+                                        calculationResult = calculationResult.concat(ShortestPathCalculator.kilometersToMiles(shortestP) + " miles");
                                     } else if (unit.equalsIgnoreCase("km")) {
-                                        String calculationResult = "Shortest path from (" + starts.getId() + ") to (" + ends.getId() + ") is " + shortestP + " km";
-                                        System.out.println("\n" + calculationResult);
-                                        calculationHistory.add(calculationResult);
+                                        calculationResult = calculationResult.concat(shortestP + " km");
                                     } else {
                                         System.out.println("Invalid unit. Route value will be displayed in default units.");
-                                        String calculationResult = "Shortest path from (" + starts.getId() + ") to (" + ends.getId() + ") is " + shortestP + " km";
-                                        System.out.println("\n" + calculationResult);
-                                        calculationHistory.add(calculationResult);
+                                        calculationResult = calculationResult.concat(shortestP + " km");
                                     }
+
+                                    System.out.println("\n" + calculationResult + "\n");
+                                    calculationHistory.add(calculationResult);
                                 }
 
                                 Route route = routeBuilder.setStartPoint(starts)
@@ -216,15 +214,13 @@ public class App {
 
                                 routeService.create(route);
 
-                                System.out.println(route);
-
                                 System.out.println("Points between (" + starts.getId() + ") and (" + ends.getId() + "):");
                                 System.out.print("(" + starts.getCityName() + ") ---> ");
                                 for (Point point : pointsBetween) {
                                     System.out.print("(" + point.getCityName() + ") ---> ");
                                 }
-                                System.out.print("(" + ends.getCityName() + ")");
-                                System.out.println("\n");
+                                System.out.println("(" + ends.getCityName() + ")");
+                                System.out.println("\n" + route + "\n");
                             }
 
                             // Displays each point object in the list
