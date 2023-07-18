@@ -12,7 +12,7 @@
 
     <loggers>
         <root level="debug">
-            <appender-ref ref="Console" level="debug"/>
+            <appender-ref ref="Console" level="warn"/>
             <appender-ref ref="MyFile" level="debug"/>
         </root>
         <logger name="org.apache.ibatis.logging.LogFactory" level="WARN"/>
@@ -22,5 +22,10 @@
         <logger name="org.example.dao.interfaces.RouteDAO.getRoutes" level="WARN"/>
         <logger name="org.example.dao.interfaces.PointDAO.getPoint" level="WARN"/>
         <logger name="org.example.dao.interfaces.PointDAO.getPoints" level="WARN"/>
+        <logger name="org.example.dao.interfaces.RouteDAO.getWayPoints" level="WARN"/>
+        <logger name="org.example.dao.interfaces.PointDAO.insertPoint" level="WARN"/>
+        <logger name="org.example.dao.interfaces.RouteDAO.setStartPoint" level="WARN"/>
+        <logger name="org.example.dao.interfaces.RouteDAO.setEndPoint" level="WARN"/>
+        <logger name="org.example.dao.interfaces.RouteDAO.insertRoute" level="WARN"/>
     </loggers>
 </configuration>
