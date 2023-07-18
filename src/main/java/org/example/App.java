@@ -3,6 +3,9 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.math.NumberUtils;
 import org.example.model.Route;
 import org.example.model.Point;
@@ -13,8 +16,6 @@ import org.example.service.implementation.PointService;
 import org.example.service.implementation.RouteService;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class App {
     public static void main(String[] args) {
@@ -252,6 +253,5 @@ public class App {
         }
 
         System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨\n");
-
     }
 }

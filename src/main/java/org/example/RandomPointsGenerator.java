@@ -19,6 +19,7 @@ public class RandomPointsGenerator {
     private static int cityNumber = 1;
 
     public RandomPointsGenerator() {
+
     }
 
     public RandomPointsGenerator(double minX, double maxX, double minY, double maxY, int numPoints) {
@@ -72,12 +73,14 @@ public class RandomPointsGenerator {
         Random random = new Random();
 
         int totalPoints = allPoints.size();
-        for (int i = 0; i < count; i++) {
-            int randomIndex = random.nextInt(totalPoints);
-            Point randomPoint = allPoints.get(randomIndex);
-            randomPoints.add(randomPoint);
+        if(totalPoints > 0){
+            for (int i = 0; i < count; i++) {
+                int randomIndex = random.nextInt(totalPoints);
+                Point randomPoint = allPoints.get(randomIndex);
+                randomPoints.add(randomPoint);
+            }
         }
-        logger.debug("A list of random points has been created.");
+
         return randomPoints;
     }
 
