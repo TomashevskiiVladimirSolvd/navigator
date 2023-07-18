@@ -73,7 +73,7 @@ public class RandomPointsGenerator {
         Random random = new Random();
 
         int totalPoints = allPoints.size();
-        if(totalPoints > 0){
+        if (totalPoints > 0) {
             for (int i = 0; i < count; i++) {
                 int randomIndex = random.nextInt(totalPoints);
                 Point randomPoint = allPoints.get(randomIndex);

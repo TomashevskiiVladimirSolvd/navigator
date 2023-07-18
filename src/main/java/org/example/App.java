@@ -264,4 +264,5 @@ public class App {
 
         System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨");
     }
-}
+
+    }
