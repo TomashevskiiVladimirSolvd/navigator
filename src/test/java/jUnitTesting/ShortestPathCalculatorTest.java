@@ -20,18 +20,38 @@ public class ShortestPathCalculatorTest {
 
     @Before
     public void setUp() {
-        // Creating some test data
-        Point pointA = new PointBuilder().setCityName("Chicago").getPoint();
-        Point pointB = new PointBuilder().setCityName("Miami").getPoint();
-        Point pointC = new PointBuilder().setCityName("Los Angeles").getPoint();
-        Point pointD = new PointBuilder().setCityName("New York").getPoint();
+
+        // Creating some test data using the builder pattern
+        Point pointA = new PointBuilder().setCityName("Alabama").getPoint();
+        Point pointB = new PointBuilder().setCityName("Boston").getPoint();
+        Point pointC = new PointBuilder().setCityName("Chicago").getPoint();
+        Point pointD = new PointBuilder().setCityName("Dallas").getPoint();
 
         points = Arrays.asList(pointA, pointB, pointC, pointD);
 
-        Route routeAB = new RouteBuilder().setStartPoint(pointA).setEndPoint(pointB).setDistance(10).getRoute();
-        Route routeAC = new RouteBuilder().setStartPoint(pointA).setEndPoint(pointC).setDistance(15).getRoute();
-        Route routeBC = new RouteBuilder().setStartPoint(pointB).setEndPoint(pointC).setDistance(5).getRoute();
-        Route routeCD = new RouteBuilder().setStartPoint(pointC).setEndPoint(pointD).setDistance(20).getRoute();
+        Route routeAB = new RouteBuilder()
+                .setStartPoint(pointA)
+                .setEndPoint(pointB)
+                .setDistance(10)
+                .getRoute();
+
+        Route routeAC = new RouteBuilder()
+                .setStartPoint(pointA)
+                .setEndPoint(pointC)
+                .setDistance(15)
+                .getRoute();
+
+        Route routeBC = new RouteBuilder()
+                .setStartPoint(pointB)
+                .setEndPoint(pointC)
+                .setDistance(5)
+                .getRoute();
+
+        Route routeCD = new RouteBuilder()
+                .setStartPoint(pointC)
+                .setEndPoint(pointD)
+                .setDistance(20)
+                .getRoute();
 
         routes = Arrays.asList(routeAB, routeAC, routeBC, routeCD);
 
@@ -40,28 +60,26 @@ public class ShortestPathCalculatorTest {
 
     @Test
     public void testCalculateShortestPath() {
-        ShortestPathCalculator calculator = new ShortestPathCalculator(points, routes);
         Point start = points.get(0);
         Point end = points.get(3);
 
         long shortestPath = calculator.calculateShortestPath(start, end);
 
-        Assert.assertEquals(25, shortestPath);
+        assertEquals(35, shortestPath);
     }
 
     @Test
     public void testGetPointsBetween() {
-        ShortestPathCalculator calculator = new ShortestPathCalculator(points, routes);
         Point start = points.get(0);
         Point end = points.get(3);
 
         List<Point> pointsBetween = calculator.getPointsBetween(start, end);
 
-        assertEquals(3, pointsBetween.size());
-        assertEquals(points.get(1), pointsBetween.get(0));
-        assertEquals(points.get(2), pointsBetween.get(1));
-        assertEquals(points.get(3),pointsBetween.get(2));
+        Assert.assertEquals(2, pointsBetween.size());
+        Assert.assertEquals(points.get(1), pointsBetween.get(0));
+        Assert.assertEquals(points.get(2), pointsBetween.get(1));
     }
+
     @Test
     public void testGetRouteHistory() {
         Point start = points.get(0);
@@ -69,9 +87,9 @@ public class ShortestPathCalculatorTest {
 
         List<Route> routeHistory = calculator.getRouteHistory(start, end);
 
-        assertEquals(2, routeHistory.size());
-        assertEquals(routes.get(0), routeHistory.get(0));
-        assertEquals(routes.get(2), routeHistory.get(1));
+        Assert.assertEquals(2, routeHistory.size());
+        Assert.assertEquals(routes.get(1), routeHistory.get(0));
+        Assert.assertEquals(routes.get(2), routeHistory.get(1));
     }
 
     @Test
@@ -79,7 +97,7 @@ public class ShortestPathCalculatorTest {
         long kilometers = 10;
         long miles = ShortestPathCalculator.kilometersToMiles(kilometers);
 
-        assertEquals(6, miles);
+        Assert.assertEquals(6, miles);
     }
 
 }

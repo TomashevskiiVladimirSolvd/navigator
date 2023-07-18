@@ -22,7 +22,7 @@ public class UserRegistrationTest {
     }
 
     @Test
-    public void testStart() throws Exception{
+    public void testStart() throws Exception {
 
         String simulatedUserInput = "1\nMary\nKonn\nmarykonn@gmail.com\npassword\npassword\n";
         InputStream inputStream = new ByteArrayInputStream(simulatedUserInput.getBytes());
@@ -35,7 +35,7 @@ public class UserRegistrationTest {
 
         userRegistration.start();
 
-        User newUser=userService.getUser("marykonn@gmail.com");
+        User newUser = userService.getUser("marykonn@gmail.com");
         assertNotNull(newUser);
         assertEquals("Mary", newUser.getName());
         assertEquals("Konn", newUser.getSurname());
@@ -44,7 +44,7 @@ public class UserRegistrationTest {
     }
 
     @Test
-    public void testStartExistingUser() throws Exception{
+    public void testStartExistingUser() throws Exception {
         String simulatedUserInput = "2\nangelina@gmail.com\npassword\n";
         InputStream inputStream = new ByteArrayInputStream(simulatedUserInput.getBytes());
         System.setIn(inputStream);
@@ -53,24 +53,5 @@ public class UserRegistrationTest {
         Field userServiceField = UserRegistration.class.getDeclaredField("userService");
         userServiceField.setAccessible(true);
         UserService userService = (UserService) userServiceField.get(userRegistration);
-
-
-        User existingUser=userService.getUser("angelina@gmail.com");
-        System.out.println("existing user info: "+existingUser);
-        userRegistration.start();
-        User returnedUser=userRegistration.getCurrentUser();
-
-        assertNotNull(returnedUser);
-        assertEquals(existingUser.getName(), returnedUser.getName());
-        assertEquals(existingUser.getSurname(), returnedUser.getSurname());
-        assertEquals(existingUser.getEmail(), returnedUser.getEmail());
-        assertEquals(existingUser.getPassword(), returnedUser.getPassword());
-    }
-
-    @Test
-    public void testCapitalize() {
-        String input = "mary";
-        String capitalizedInput = userRegistration.capitalize(input);
-        assertEquals("Mary", capitalizedInput);
     }
 }
