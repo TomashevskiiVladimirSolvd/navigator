@@ -1,9 +1,7 @@
 package org.example;
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.example.model.Route;
@@ -33,10 +31,8 @@ public class App {
         List<Point> allPoints = pointService.getPoints();
 
         if (allPoints.isEmpty()) {
-            int cityNumber = 1;
             RandomPointsGenerator pointGenerator = new RandomPointsGenerator(0, 100, 0, 100, 10);
-            allPoints = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(
-                    Collectors.toList());
+            allPoints = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(Collectors.toList());
         }
 
         Scanner scan = new Scanner(System.in);

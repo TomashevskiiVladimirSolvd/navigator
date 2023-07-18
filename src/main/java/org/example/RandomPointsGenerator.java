@@ -16,6 +16,7 @@ public class RandomPointsGenerator {
     private double minY;
     private double maxY;
     private int numPoints;
+    private static int cityNumber = 1;
 
     public RandomPointsGenerator() {
     }
@@ -63,7 +64,7 @@ public class RandomPointsGenerator {
         double x = minX + (maxX - minX) * random.nextDouble();
         double y = minY + (maxY - minY) * random.nextDouble();
         logger.debug("A random point has been created.");
-        return new Point(x, y, null);
+        return new Point(x, y, "City" + cityNumber++);
     }
 
     public static List<Point> getRandomPoints(List<Point> allPoints, int count) {
@@ -84,9 +85,5 @@ public class RandomPointsGenerator {
         double deltaX = p2.getXCoordinate() - p1.getXCoordinate();
         double deltaY = p2.getYCoordinate() - p1.getYCoordinate();
         return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
-
-    public static String generateCityName(int cityNumber) {
-        return "City" + cityNumber;
     }
 }
