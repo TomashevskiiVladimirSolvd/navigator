@@ -35,19 +35,21 @@ public class App {
 
             RandomPointsGenerator pointGenerator = new RandomPointsGenerator(0, 100, 0, 100, 4);
             allPoints = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(Collectors.toList());
-
-            for (int i = 0; i < allPoints.size() - 1; i++) {
-                for (int j = i + 1; j < allPoints.size(); j++) {
-                    Point startPoint = allPoints.get(i);
-                    Point endPoint = allPoints.get(j);
-                    long distance = (long) (RandomPointsGenerator.calculateDistance(startPoint, endPoint));
-                    Route route = new Route(startPoint, endPoint, distance);
-                    routeService.create(route);
-                }
-            }
         }
 
-        List<Route> allRoutes = routeService.getRoutes();;
+        List<Route> allRoutes = routeService.getRoutes();
+
+        if (allRoutes.isEmpty()) {
+            for (int i = 0; i < allPoints.size() - 1; i++) {
+                Point startPoint = allPoints.get(i);
+                Point endPoint = allPoints.get(i + 1);
+                long distance = (long) (RandomPointsGenerator.calculateDistance(startPoint, endPoint));
+                Route route = new Route(startPoint, endPoint, distance);
+                routeService.create(route);
+            }
+
+            allRoutes = routeService.getRoutes();
+        }
 
         Scanner scan = new Scanner(System.in);
 
