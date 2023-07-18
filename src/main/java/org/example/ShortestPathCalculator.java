@@ -34,10 +34,12 @@ public class ShortestPathCalculator {
                 .findFirst()
                 .orElse(null);
 
+
         if (starts == null || ends == null) {
             logger.warn("Invalid start or end point ID.");
             return -1;
         }
+
         Map<Point, Long> distances = new HashMap<>();
         Map<Point, Point> previousPoints = new HashMap<>();
         PriorityQueue<PointEntry> queue = new PriorityQueue<PointEntry>(Comparator.comparingLong(pe -> pe.distance));

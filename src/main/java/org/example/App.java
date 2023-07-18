@@ -28,28 +28,23 @@ public class App {
 
         System.out.println("\n*** Thank you for waiting while the app is loading ***");
 
-        List<Point> allPoints = pointService.getPoints();
-
-        if (allPoints.isEmpty()) {
+        if (pointService.getPoints().isEmpty()) {
             System.out.println("\n*** City points and routes are being generated, please wait ***");
 
             RandomPointsGenerator pointGenerator = new RandomPointsGenerator(0, 100, 0, 100, 10);
-            allPoints = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(Collectors.toList());
-        }
+            List<Point> points = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(Collectors.toList());
 
-        List<Route> allRoutes = routeService.getRoutes();
-
-        if (allRoutes.isEmpty()) {
-            for (int i = 0; i < allPoints.size() - 1; i++) {
-                Point startPoint = allPoints.get(i);
-                Point endPoint = allPoints.get(i + 1);
+            for (int i = 0; i < points.size() - 1; i++) {
+                Point startPoint = points.get(i);
+                Point endPoint = points.get(i + 1);
                 long distance = (long) (RandomPointsGenerator.calculateDistance(startPoint, endPoint));
                 Route route = new Route(startPoint, endPoint, distance);
                 routeService.create(route);
             }
-
-            allRoutes = routeService.getRoutes();
         }
+
+        List<Point> allPoints = pointService.getPoints();
+        List<Route> allRoutes = routeService.getRoutes();
 
         Scanner scan = new Scanner(System.in);
 
