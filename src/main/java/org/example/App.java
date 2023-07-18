@@ -171,7 +171,8 @@ public class App {
                                         System.out.print("(" + point.getCityName() + ") ---> ");
                                     }
                                     System.out.println("(" + route.getEndPoint().getCityName() + ")");
-                                    System.out.println("\n" + route + "\n");
+                                    System.out.println("\n✦✦✦ SHORTEST ROUTE ✦✦✦");
+                                    System.out.println(route + "\n");
 
                                     routeExists = true;
                                     break;
@@ -220,15 +221,18 @@ public class App {
                                     System.out.print("(" + point.getCityName() + ") ---> ");
                                 }
                                 System.out.println("(" + ends.getCityName() + ")");
-                                System.out.println("\n" + route + "\n");
+
+                                System.out.println("\n✦✦✦ SHORTEST ROUTE ✦✦✦");
+                                System.out.println(route + "\n");
                             }
 
                             // Displays each point object in the list
+                            System.out.println("✦✦✦ POINTS IN BETWEEN ✦✦✦");
                             for (Point point : cal.getPointsBetween(starts, ends))
                                 System.out.println(point);
-                            System.out.println();
 
                             // Get the route itinerary
+                            System.out.println("\n✦✦✦ ROUTES IN BETWEEN ✦✦✦");
                             List<Route> routeHistory = cal.getRouteHistory(starts, ends);
                             if (!routeHistory.isEmpty()) {
                                 System.out.println("Route itinerary from (" + startXC + ") to (" + endYC + "):");
@@ -263,6 +267,6 @@ public class App {
             System.out.println(calculation);
         }
 
-        System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨\n");
+        System.out.println("\n✨✨✨ Thank you for using Navigator! ✨✨✨");
     }
 }
