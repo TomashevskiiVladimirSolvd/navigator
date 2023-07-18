@@ -34,11 +34,6 @@ public class ShortestPathCalculator {
                 .findFirst()
                 .orElse(null);
 
-        if (starts == null || ends == null) {
-            logger.warn("Invalid start or end point ID.");
-            return -1;
-        }
-
 
         if (starts == null || ends == null) {
             logger.warn("Invalid start or end point ID.");
