@@ -32,8 +32,20 @@ public class App {
         List<Point> allPoints = pointService.getPoints();
 
         if (allPoints.isEmpty()) {
+            System.out.println("\n*** Thank you for waiting while the app is loading ***");
+
             RandomPointsGenerator pointGenerator = new RandomPointsGenerator(0, 100, 0, 100, 10);
             allPoints = Stream.generate(() -> pointService.create(pointGenerator.createRandomPoint())).limit(pointGenerator.getNumPoints()).collect(Collectors.toList());
+
+            for (int i = 0; i < allPoints.size(); i++) {
+                for (int j = i + 1; j < allPoints.size(); j++) {
+                    Point startPoint = allPoints.get(i);
+                    Point endPoint = allPoints.get(j);
+                    long distance = (long) (RandomPointsGenerator.calculateDistance(startPoint, endPoint));
+                    Route route = new Route(startPoint, endPoint, distance);
+                    routeService.create(route);
+                }
+            }
         }
 
         Scanner scan = new Scanner(System.in);
