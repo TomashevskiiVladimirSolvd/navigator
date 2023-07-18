@@ -12,7 +12,7 @@
 
     <loggers>
         <root level="debug">
-            <appender-ref ref="Console" level="debug"/>
+            <appender-ref ref="Console" level="warn"/>
             <appender-ref ref="MyFile" level="debug"/>
         </root>
         <logger name="org.apache.ibatis.logging.LogFactory" level="WARN"/>
