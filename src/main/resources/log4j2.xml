@@ -12,8 +12,15 @@
 
     <loggers>
         <root level="debug">
-            <appender-ref ref="Console" level="info"/>
-            <appender-ref ref="MyFile" level="error"/>
+            <appender-ref ref="Console" level="warn"/>
+            <appender-ref ref="MyFile" level="debug"/>
         </root>
+        <logger name="org.apache.ibatis.logging.LogFactory" level="WARN"/>
+        <logger name="org.apache.ibatis.datasource.pooled.PooledDataSource" level="WARN"/>
+        <logger name="org.apache.ibatis.transaction.jdbc.JdbcTransaction" level="WARN"/>
+        <logger name="org.example.dao.interfaces.UserDAO.getUserByEmail" level="WARN"/>
+        <logger name="org.example.dao.interfaces.RouteDAO.getRoutes" level="WARN"/>
+        <logger name="org.example.dao.interfaces.PointDAO.getPoint" level="WARN"/>
+        <logger name="org.example.dao.interfaces.PointDAO.getPoints" level="WARN"/>
     </loggers>
 </configuration>

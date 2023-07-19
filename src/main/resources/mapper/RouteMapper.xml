@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.interfaces.RouteDAO">
 
     <insert id="insertRoute" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO routes (start_point, end_point, distance) VALUES (#{startPoint.id}, #{endPoint.id}, #{distance})
     </insert>
 
-
-
-
     <update id="updateRoute">
         UPDATE routes SET distance = #{distance} WHERE id = #{id}
     </update>
-
-    <resultMap id="routesResult" type="org.example.model.Route">
-        <id property="id" column="id" />
-        <result property="distance" column="distance" />
-        <association property="startPoint" column="start_point" select="org.example.dao.interfaces.PointDAO.getPoint"/>
-        <association property="endPoint" column="end_point" select="org.example.dao.interfaces.PointDAO.getPoint"/>
-    </resultMap>
 
     <select id="getRoute" resultMap="routesResult">
         SELECT r.id, r.start_point, r.end_point, r.distance FROM routes r WHERE r.id = #{id}
@@ -38,8 +28,31 @@
     </update>
 
     <insert id="setWayPoints" parameterType="map">
-        INSERT INTO waypoints (points_id, routes_id) VALUES (#{point.id}, #{route.id})
+        INSERT INTO waypoints (points_id, routes_id, sequence) VALUES (#{point.id}, #{route.id}, #{order});
     </insert>
 
+    <select id="getWayPoints" resultMap="wayPointsResult">
+        SELECT points.id AS waypoint_id,
+               points.x_coordinate AS waypoint_x_coordinate,
+               points.y_coordinate AS waypoint_y_coordinate,
+               points.city_name AS waypoint_city_name FROM waypoints
+                                                               INNER JOIN routes ON waypoints.routes_id = routes.id
+                                                               LEFT JOIN points ON points.id = points_id
+        WHERE routes.id = ${id};
+    </select>
 
+    <resultMap id="wayPointsResult" type="org.example.model.Point">
+        <result property="id" column="waypoint_id"/>
+        <result property="xCoordinate" column="waypoint_x_coordinate"/>
+        <result property="yCoordinate" column="waypoint_y_coordinate"/>
+        <result property="cityName" column="waypoint_city_name"/>
+    </resultMap>
+
+    <resultMap id="routesResult" type="org.example.model.Route">
+        <id property="id" column="id" />
+        <result property="distance" column="distance" />
+        <association property="startPoint" column="start_point" select="org.example.dao.interfaces.PointDAO.getPoint"/>
+        <association property="endPoint" column="end_point" select="org.example.dao.interfaces.PointDAO.getPoint"/>
+        <collection property="wayPoints" columnPrefix="waypoint_" resultMap="org.example.dao.interfaces.RouteDAO.wayPointsResult"/>
+    </resultMap>
 </mapper>

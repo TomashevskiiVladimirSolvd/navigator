@@ -1,5 +1,6 @@
 package org.example.service.interfaces;
 
+import org.example.model.Point;
 import org.example.model.builder.RouteBuilder;
 import org.example.model.Route;
 
@@ -10,5 +11,7 @@ public interface IRouteService {
     public void update(Route route);
     public Route getRoute(int id);
     public List<Route> getRoutes();
+
+    public List<Point> getWayPoints(int id);
 
 }

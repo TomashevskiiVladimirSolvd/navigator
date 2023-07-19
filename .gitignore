@@ -1,4 +1,5 @@
 target/
+target/*
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -98,3 +99,6 @@ hs_err_pid*
 *.MF
 *.bat
 *.png
+
+.idea/inspectionProfiles
+
