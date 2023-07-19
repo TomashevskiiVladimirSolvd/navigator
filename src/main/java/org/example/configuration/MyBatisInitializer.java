@@ -31,7 +31,7 @@ public class MyBatisInitializer {
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, properties);
 
     } catch (IOException e) {
-      //logger.error("An error occurred while initializing MyBatis:", e);
+      logger.error("An error occurred while initializing MyBatis:", e);
     }
 
 

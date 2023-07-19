@@ -19,6 +19,13 @@ public class Route {
         this.distance = distance;
     }
 
+    public Route(Integer id, Point startPoint, Point endPoint, long distance) {
+        this.id = id;
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+        this.distance = distance;
+    }
+
     public Route(Point startPoint, Point endPoint, long distance, List<Point> wayPoints) {
 
         this.startPoint = startPoint;
@@ -99,7 +106,6 @@ public class Route {
                 ", startPoint=" + startPoint +
                 ", endPoint=" + endPoint +
                 ", distance=" + distance +
-                ", wayPoints=" + wayPoints +
                 '}';
     }
 }

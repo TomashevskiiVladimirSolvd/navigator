@@ -17,6 +17,9 @@ public class Point {
   public Point() {
   }
 
+  public Point(Integer id) {
+    this.id = id;
+  }
 
   public Point(double xCoordinate, double yCoordinate, String cityName) {
     this.xCoordinate = xCoordinate;
